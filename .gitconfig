@@ -1,0 +1,10 @@
+[user]
+	name = Benjamin Tambourine
+	email = vtambourine@yandex.ru
+
+[alias]
+	ci = commit
+	st = status
+	co = checkout
+	br = branch
+	di = diff
