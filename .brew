@@ -1,0 +1,16 @@
+#!/bin/bash
+
+brew update
+
+brew upgrade
+
+brew install findutils
+brew install bash
+brew install ack
+brew install rename
+brew install tree
+
+brew install git
+brew install node
+
+brew cleanup
