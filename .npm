@@ -1,0 +1,2 @@
+ npm install -g bem xjst ometajs borschik node-inherit cssp csso
+ npm install -g supervisor serve
