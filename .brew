@@ -12,5 +12,6 @@ brew install tree
 
 brew install git
 brew install node
+brew install mongodb
 
 brew cleanup
