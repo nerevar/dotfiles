@@ -6,7 +6,7 @@ unset file
 export LC_ALL="ru_RU.UTF-8"
 export LANG="ru_RU"
 
-#export PATH=./node_modules/.bin:$PATH
+export PATH=./node_modules/.bin:/usr/local/share/npm/bin:$PATH
 export NODE_PATH="/usr/local/lib/node_modules"
 
 # Larger bash history (allow 32³ entries; default is 500)
