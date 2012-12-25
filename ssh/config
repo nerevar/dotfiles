@@ -1,0 +1,19 @@
+ForwardAgent yes
+
+Host aliens
+HostName alienstook.me
+
+Host leon02
+HostName leon02.yandex.ru
+
+Host leon03
+HostName leon03.yandex.ru
+
+Host zelo
+HostName zelo.yandex.ru
+
+Host nimbula
+HostName kaa.serp.yandex.ru
+
+Host *
+User benjamin
