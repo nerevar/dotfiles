@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DOTFILES_DIRECTORY="${HOME}/dotfiles"
-DOTFILES_GIT_REMOTE="https://github.com/vtambourine/dotfiles"
+DOTFILES_GIT_REMOTE="https://github.yandex-team.ru/vtambourine/dotfiles"
 DOTFILES_GIT_BRANCH="master"
 DOTFILES_BOOTSTRAP="https://raw.github.com/vtambourine/dotfiles/${DOTFILES_GIT_BRANCH}/`basename $0`"
 DOTFILES_TARBALL_PATH="${DOTFILES_GIT_REMOTE}/tarball/${DOTFILES_GIT_BRANCH}"
@@ -55,16 +55,21 @@ cd ${DOTFILES_DIRECTORY}
 source ./lib/utils.sh
 
 # Initialize the git repository if it's missing
-if ! is_git_repo && `type_exists 'git'`; then
-    e_header "Initializing git repository..."
-    git init
-    git remote add origin ${DOTFILES_GIT_REMOTE}
-    git fetch origin master
-    # Reset the index and working tree to the fetched HEAD
-    # (submodules are cloned in the subsequent sync step)
-    git reset --hard FETCH_HEAD
-    # Remove any untracked files
-    git clean -fd
+if type_exists 'git'; then
+    if is_git_repo; then
+        e_header "Updating git repository..."
+        git pull --rebase origin ${DOTFILES_GIT_BRANCH}
+    else
+        e_header "Initializing git repository..."
+        git init
+        git remote add origin ${DOTFILES_GIT_REMOTE}
+        git fetch origin ${DOTFILES_GIT_BRANCH}
+        # Reset the index and working tree to the fetched HEAD
+        # (submodules are cloned in the subsequent sync step)
+        git reset --hard FETCH_HEAD
+        # Remove any untracked files
+        git clean -fd
+    fi
 fi
 
 mirrorfiles() {
