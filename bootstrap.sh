@@ -54,6 +54,19 @@ cd ${DOTFILES_DIRECTORY}
 
 source ./lib/utils.sh
 
+# Initialize the git repository if it's missing
+if ! is_git_repo && `type_exists 'git'`; then
+    e_header "Initializing git repository..."
+    git init
+    git remote add origin ${DOTFILES_GIT_REMOTE}
+    git fetch origin master
+    # Reset the index and working tree to the fetched HEAD
+    # (submodules are cloned in the subsequent sync step)
+    git reset --hard FETCH_HEAD
+    # Remove any untracked files
+    git clean -fd
+fi
+
 mirrorfiles() {
     # Force remove the vim directory if it's already there.
     if [ -e "${HOME}/.vim" ]; then
