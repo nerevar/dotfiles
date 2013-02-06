@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DOTFILES_DIRECTORY="${HOME}/dotfiles"
-DOTFILES_GIT_REMOTE="https://github.yandex-team.ru/vtambourine/dotfiles"
+DOTFILES_GIT_REMOTE="git@github.yandex-team.ru:benjamin/dotfiles.git"
 DOTFILES_GIT_BRANCH="master"
 DOTFILES_BOOTSTRAP="https://raw.github.com/vtambourine/dotfiles/${DOTFILES_GIT_BRANCH}/`basename $0`"
 DOTFILES_TARBALL_PATH="${DOTFILES_GIT_REMOTE}/tarball/${DOTFILES_GIT_BRANCH}"
