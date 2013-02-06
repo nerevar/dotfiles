@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 DOTFILES_DIRECTORY="${HOME}/dotfiles"
-DOTFILES_GIT_REMOTE="https://github.yandex-team.ru/benjamin/dotfiles"
+DOTFILES_GIT_REPO="https://github.yandex-team.ru/benjamin/dotfiles"
+DOTFILES_GIT_REMOTE="git@github.yandex-team.ru:benjamin/dotfiles.git"
 DOTFILES_GIT_BRANCH="master"
-DOTFILES_BOOTSTRAP="https://github.yandex-team.ru/benjamin/dotfiles/raw/${DOTFILES_GIT_BRANCH}/`basename $0`"
-DOTFILES_TARBALL_PATH="${DOTFILES_GIT_REMOTE}/archive/${DOTFILES_GIT_BRANCH}.tar.gz"
+DOTFILES_BOOTSTRAP="${DOTFILES_GIT_REPO}/raw/${DOTFILES_GIT_BRANCH}/`basename $0`"
+DOTFILES_TARBALL_PATH="${DOTFILES_GIT_REPO}/archive/${DOTFILES_GIT_BRANCH}.tar.gz"
 
 # Processing options
 while : ; do
@@ -43,7 +44,7 @@ if [ ! -d ${DOTFILES_DIRECTORY} ]; then
     printf "Downloading dotfiles...\n"
     mkdir -p ${DOTFILES_DIRECTORY}
     # Get the tarball
-    curl -fsSLo ${HOME}/dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
+    curl -kfsSLo ${HOME}/dotfiles.tar.gz ${DOTFILES_TARBALL_PATH}
     # Extract to the dotfiles directory
     tar -zxf ${HOME}/dotfiles.tar.gz --strip-components 1 -C ${DOTFILES_DIRECTORY}
     # Remove the tarball
