@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Shortlinks to remote servers
 alias alienstook="ssh benjamin@alienstook.me"
 alias philip1="ssh philip1.yandex.ru"

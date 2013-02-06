@@ -1,17 +1,19 @@
-for file in ~/.{path,bash_prompt,exports,aliases,functions,extra}; do
-[ -r "$file" ] && source "$file"
+#!/usr/bin/env bash
+
+declare -a files=(
+    $HOME/dotfiles/bash/exports # Configuration
+    $HOME/dotfiles/bash/aliases # Aliases
+    $HOME/dotfiles/bash/bash_prompt # Custom bash prompt
+    $HOME/.bash_profile.local # Local and private settings not under version control (e.g. git credentials)
+    $HOME/dotfiles/bash/bash_paths # Path modifications (must source after `.bash_profile.local` in case of custom `brew` location)
+)
+
+# If these files are readable, source them
+for index in ${!files[*]}
+do
+    if [[ -r ${files[$index]} ]]; then
+        source ${files[$index]}
+    fi
 done
-unset file
 
-export LC_ALL="ru_RU.UTF-8"
-export LANG="ru_RU"
-
-export PATH=./node_modules/.bin:/usr/local/share/npm/bin:$PATH
-export NODE_PATH="/usr/local/lib/node_modules"
-
-# Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=32768
-export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
-# Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+unset files
