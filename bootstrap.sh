@@ -11,13 +11,13 @@ DOTFILES_TARBALL_PATH="${DOTFILES_GIT_REPO}/archive/${DOTFILES_GIT_BRANCH}.tar.g
 while : ; do
     case "$1" in
         -e | --with-extra) # Also download and update side configurations
-            with-extra=1
+            with_extra=1
             shift;;
         -k | --with-keys) # Also copy ssh keys
-            with-keys=1
+            with_keys=1
             shift;;
         -p | --with-packages) # Install and update packages
-            with-packages=1
+            with_packages=1
             shift;;
         -f | --force) # Overwrite existing files
             force=1
@@ -34,6 +34,10 @@ done
 if [ $# -gt 0 ]; then
     while [ $1 ]; do
         ssh $1 -- "curl -kfsSL $DOTFILES_BOOTSTRAP \$1 | bash -s -- --force"
+        if [[ with_keys ]]; then
+            KEYCODE=`cat ${HOME}/.ssh/id_rsa.pub`
+            ssh -q $1 "mkdir ~/.ssh 2>/dev/null; chmod 700 ~/.ssh; echo "$KEYCODE" >> ~/.ssh/authorized_keys; chmod 644 ~/.ssh/authorized_keys"
+        fi
         shift
     done
     exit 0
@@ -96,7 +100,6 @@ mirrorfiles() {
     link "git/gitignore"      ".gitignore"
     link "vim"                ".vim"
     link "vim/vimrc"          ".vimrc"
-    link "ssh/config"         ".ssh/config"
 
     printf "Dotfiles update complete!\n"
 }
