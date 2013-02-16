@@ -19,14 +19,14 @@ let mapleader=","
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
-" Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
+" Centralize undo history
 if exists("&undodir")
 	set undodir=~/.vim/undo
 endif
-" Disable swapfiles
-set noswapfile 
+" Disable backup and swapfiles
+set nobackup
+set nowritebackup
+set noswapfile
 
 " Respect modeline in files
 set modeline
