@@ -62,10 +62,10 @@ source ./lib/utils.sh
 # Initialize the git repository if it's missing
 if type_exists 'git'; then
     if is_git_repo; then
-        e_header "Updating git repository..."
+        echo "Updating git repository..."
         git pull --rebase origin ${DOTFILES_GIT_BRANCH}
     else
-        e_header "Initializing git repository..."
+        echo "Initializing git repository..."
         git init
         git remote add origin ${DOTFILES_GIT_REMOTE}
         git fetch origin ${DOTFILES_GIT_BRANCH}
@@ -100,18 +100,5 @@ mirrorfiles() {
     printf "Dotfiles update complete!\n"
 }
 
-if [ ! $force ]; then
-    # Verify that you want to proceed before potentially overwriting files
-    printf "\n"
-    printf "Warning: This step may overwrite your existing dotfiles. "
-    read -p "Continue? (y/n) " -n 1
-    printf "\n"
-fi
-
-if [[ $force || $REPLY =~ ^[Yy]$ ]]; then
-    mirrorfiles
-    source ${HOME}/.bash_profile
-else
-    printf "Aborting...\n"
-    exit 1
-fi
+mirrorfiles
+source ${HOME}/.bash_profile
