@@ -12,41 +12,21 @@ alias d="cd ~/Documents/Dropbox"
 alias p="cd ~/Projects"
 alias g="git"
 alias h="history"
-alias j="jobs"
 alias v="vim -o"
 alias s="subl ."
 alias o="open"
 alias oo="open ."
+alias c='drawline'
+alias reload='source ~/.bash_profile'
+alias rel='reload'
 
 alias h='fc -l'
 alias m='less'
-alias g='egrep -i'
 
-# Universal make
-if [[ `which gmake` != '' ]]; then
-alias make='gmake'
-else
-alias gmake='make'
-fi
-
-# Git
-
-alias ga='git add'
-alias gb='git branch'
-alias go='git checkout'
-alias gi='git ci'
-alias gd='git di'
-alias gds='git di --staged'
-alias gm='git merge --no-ff'
-alias gs='git st'
-alias gl='git lol'
-alias gp='git pull --rebase'
-alias gt='git tag'
-alias gr='git remote -v'
-alias gh='git hist'
-
-alias sd='svn di | colordiff'
-alias st='svn st'
+# GIT & SVN
+alias gd='git diff | colordiff'
+alias gds='git diff --staged | colordiff'
+alias sd='svn diff | colordiff'
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -60,6 +40,7 @@ alias l="ls -l ${colorflag}"
 alias ll="ls -laFo"
 alias la="ls -la ${colorflag}"
 alias lsd='ls -l ${colorflag} | grep "^d"'
+alias ltr='ls -ltr'
 
 # Always use color output for `ls`
 alias ls="command ls ${colorflag}"
@@ -70,3 +51,31 @@ _expand()
 {
     return 0;
 }
+
+# Misc
+alias mine='sudo chown -R $USER:www .'
+
+# Draws horizontal line and clears sreen
+drawline()
+{
+    SEPARATOR="-"
+    WIDTH=$(tput cols);
+    echo -e "\033[$(($RANDOM % 7 + 31))m"
+    ST=""
+    for ((i=0; i<$WIDTH; i++)); do ST+=$SEPARATOR ; done
+    echo $ST
+    echo -e "\033[0m"
+    clear
+}
+
+# Universal make
+if [[ `which gmake` != '' ]]; then
+    alias make='gmake'
+else
+    alias gmake='make'
+fi
+
+# Universal ack
+if [[ `which 'ack-grep'` != '' ]]; then
+    alias ack='ack-grep'
+fi
