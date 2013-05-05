@@ -1,4 +1,4 @@
-# Benjamin Tambourine's dotfiles
+# NeReVaR's dotfiles
 
 ## Features
   * Automatic configurations installation
@@ -8,7 +8,7 @@
 ## Usage
 ### How to install locally
 ```bash
-curl -fsSLk https://github.yandex-team.ru/benjamin/dotfiles/raw/master/bootstrap.sh | bash -s --
+curl -fsSLk https://github.yandex-team.ru/nerevar/dotfiles/raw/master/bootstrap.sh | bash -s --
 ```
 
 ### How to deploy to remote machine

@@ -1,71 +1,70 @@
+[user]
+    name = Roman Rybalchenko (nerevar)
+    email = nerevar@yandex-team.ru
+[merge]
+    log = true
+    ff = false
+[branch]
+    autosetuprebase = always
+[branch "master"]
+    rebase = true
+[branch "develop"]
+    rebase = true
+[branch "release"]
+    rebase = true
+[push]
+    default = current
+[color]
+    ui = true
+    branch = auto
+    diff = auto
+    interactive = auto
+    status = auto
+[core]
+    pager = "less -r"
+    # Use custom `.gitignore` and `.gitattributes`
+    excludesfile = ~/.gitignore
+[diff]
+	noprefix = true
+	algorithm = patience
 [alias]
-    # https://git.wiki.kernel.org/articles/a/l/i/Aliases.html
-    
-    # SVN-like shorthands
+    ci = commit
     co = checkout
-    st = status
-    di = diff
+    st = status -sb
     br = branch
-    ci = commit    
 
-    # `git remote prune origin`: remove remote-tracking branches that were deleted from the remote repo
-    # `git gc`: cleanup unnecessary files and optimize the local repository
-    # `git clean -df`: remove untracked files and directories from the working tree
-    # `git stash clear`: remove all stashed states
-    trim = !git remote prune origin && git gc
-    cleanup = !git clean -df && git stash clear
+    m = checkout master
+    d = checkout develop
 
-    # Add untracked, remove deleted, and show status
-    adda = !git add -A && git status
+    url = config --get remote.origin.url
 
-    # Fetch a repository ($1) and checkout its ref ($2) HEAD
-    browse = !bash -c 'git fetch "$1" "$2" && git checkout FETCH_HEAD' -
-        
-	# View the current working tree status using the short format
-	s = status -sb
-	
-	# Commit all changes
-	ca = !git add -A && git commit -av
+    # search commits by message
+    search = "!f() { git log --all --grep=$1; }; f"
 
-    # Diff what is staged for the next commit
-    diffc = diff --cached
-    # Diff overview
-    diffst = diff --stat
-    
-    # Show log with patch
-    lg = log -p
-
-    # Custom pretty log
-    logp = log --pretty=oneline --date-order --decorate --abbrev-commit
-    
-    # Custom graph log (append any tree-ish)
-    lol = log --graph --pretty=oneline --decorate --abbrev-commit
-    # Custom graph log for all branches
-    g = log --graph --decorate --pretty=oneline --abbrev-commit --branches=* --all
-
-    # Diffstat log
-    logst = log --stat
-    # Short format diffstat log
-    logsf = log --stat --format=oneline --abbrev-commit
+    # show tags and any tag annotation (tito adds tag annotations for example)
+    tags = tag -n1 -l
 
     # Display the number of commits per author in numerical order
     who = shortlog -sn --
 
-[color]
-    # color opts: normal, black, red, green, yellow, blue, magenta, cyan, or white
-    ui = auto
-    interactive = auto
+    merge-to = "!gitmergeto() { export current_branch=`git branch | grep '* ' | tr -d '* '` && git checkout $1 && git merge --no-ff $current_branch; unset current_branch; git branch;}; gitmergeto"
 
-[core]
-    # Use custom `.gitignore` and `.gitattributes`
-    excludesfile = ~/.gitignore
-    attributesfile = ~/.gitattributes
-    
-	# Treat spaces before tabs, lines that are indented with 8 or more spaces, and all kinds of trailing whitespace as an error
-	whitespace = space-before-tab,indent-with-non-tab,trailing-space
+    # various pretty loggers from various places
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+    lc = log ORIG_HEAD.. --stat --no-merges
+    # from http://blog.kfish.org/2010/04/git-lola.html
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    ll = log --graph --date=short
 
-[diff]
-    tool = colordiff
+    # file level ignoring http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+    assume   = update-index --assume-unchanged
+    unassume = update-index --no-assume-unchanged
+    assumed  = "!git ls-files -v | grep ^h | cut -c 3-"
 
-[difftool]
-    prompt = false
+    snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+
+    # easy merge
+    ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+    theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+
