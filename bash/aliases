@@ -64,7 +64,7 @@ drawline()
     ST=""
     for ((i=0; i<$WIDTH; i++)); do ST+=$SEPARATOR ; done
     echo $ST
-    echo -e "\033[0m"
+    echo -e $RESET
     clear
 }
 
