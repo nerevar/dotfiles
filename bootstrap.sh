@@ -19,6 +19,9 @@ while : ; do
         -p | --with-packages) # Install and update packages
             with_packages=1
             shift;;
+        -s | --silent) # Silent install
+            export silent=1
+            shift;;
         -f | --force) # Overwrite existing files
             force=1
             shift;;
@@ -34,10 +37,10 @@ done
 if [ $# -gt 0 ]; then
 
     while [ $1 ]; do
-        ssh $1 -- "curl -kfsSL $DOTFILES_BOOTSTRAP \$1 | bash -s -- --force"
+        ssh -q $1 "curl -kfsSL $DOTFILES_BOOTSTRAP | bash -s -- --force --silent" 2>/dev/null
         if [[ with_keys ]]; then
             KEYCODE=`cat ${HOME}/.ssh/id_rsa.pub`
-            ssh -q $1 "mkdir ~/.ssh 2>/dev/null; chmod 700 ~/.ssh; echo "$KEYCODE" >> ~/.ssh/authorized_keys; chmod 644 ~/.ssh/authorized_keys"
+            ssh -q $1 "mkdir ~/.ssh 2>/dev/null; chmod 700 ~/.ssh; echo "$KEYCODE" >> ~/.ssh/authorized_keys; chmod 644 ~/.ssh/authorized_keys" 2>/dev/null
         fi
         shift
     done

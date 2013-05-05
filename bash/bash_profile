@@ -18,10 +18,12 @@ do
 done
 
 # Show MOTD
-drawline
-echo -e "\033[$(($RANDOM % 7 + 31))m"
-motd=($HOME/dotfiles/bash/motd/*)
-cat ${motd[RANDOM % ${#motd[@]}]}
-echo -e $RESET
+if [ ! $silent ]; then
+    drawline
+    echo -e "\033[$(($RANDOM % 7 + 31))m"
+    motd=($HOME/dotfiles/bash/motd/*)
+    cat ${motd[RANDOM % ${#motd[@]}]}
+    echo -e $RESET
+fi
 
 unset files
