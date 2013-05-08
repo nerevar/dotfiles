@@ -24,9 +24,18 @@ alias h='fc -l'
 alias m='less'
 
 # GIT & SVN
-alias gd='git diff | colordiff'
-alias gds='git diff --staged | colordiff'
 alias sd='svn diff | colordiff'
+alias gst='git status'
+
+# цветной diff git
+gd() 
+{
+    git diff "${@}" | colordiff
+}
+gds() 
+{
+    git diff --staged "${@}" | colordiff
+}
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
