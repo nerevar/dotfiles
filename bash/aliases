@@ -25,7 +25,7 @@ alias m='less'
 
 # GIT & SVN
 alias sd='svn diff | colordiff'
-alias gst='git status'
+alias gst='git st'
 
 # цветной diff git
 gd() 
