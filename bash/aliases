@@ -37,6 +37,9 @@ gds()
     git diff --staged "${@}" | colordiff
 }
 
+# replace git read-only protocol to pushable ssh in current git repo
+alias gitssh='sed -ie "s/git:\/\/\([^\/]*\)\/\(.*\)/git@\1:\2.git/g" .git/config'
+
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 colorflag="--color"
