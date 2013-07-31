@@ -12,7 +12,9 @@ alias d="cd ~/Documents/Dropbox"
 alias p="cd ~/Projects"
 alias g="git"
 alias h="history"
-alias v="vim -o"
+alias e="vim"
+alias v="vim"
+alias vim="vim -O"
 alias s="subl ."
 alias o="open"
 alias oo="open ."
@@ -24,21 +26,26 @@ alias h='fc -l'
 alias m='less'
 
 # GIT & SVN
-alias sd='svn diff | colordiff'
 alias gst='git st'
+alias gs=gst
+
+alias g1='git log -1'
+#alias s1='svn log -l1'
 
 # цветной diff git
-gd() 
+gd()
 {
     git diff "${@}" | colordiff
 }
-gds() 
+gds()
 {
     git diff --staged "${@}" | colordiff
 }
+alias gdc=gds
+alias sd='svn diff | colordiff'
 
 # replace git read-only protocol to pushable ssh in current git repo
-alias gitssh='sed -ie "s/git:\/\/\([^\/]*\)\/\(.*\)/git@\1:\2.git/g" .git/config'
+alias gitssh='sed -ie "s/git:\/\/\([^\/]*\)\/\(.*\)/git@\1:\2/g" .git/config'
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -91,3 +98,12 @@ fi
 if [[ `which 'ack-grep'` != '' ]]; then
     alias ack='ack-grep'
 fi
+
+# IP addresses
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
+
+# URL-encode strings
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+
+

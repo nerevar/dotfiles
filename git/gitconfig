@@ -25,21 +25,41 @@
     # Use custom `.gitignore` and `.gitattributes`
     excludesfile = ~/.gitignore
 [diff]
-	noprefix = true
-	algorithm = patience
+    noprefix = true
+    algorithm = patience
+[url "git@github.yandex-team.ru:"]
+    pushInsteadOf = "ght:"
+    pushInsteadOf = "git://github.yandex-team.ru/"
+[url "git://github.yandex-team.ru/"]
+    insteadOf = "ght:"
+[url "git@github.com:"]
+    pushInsteadOf = "gh:"
+    pushInsteadOf = "git://github.com/"
+[url "git://github.com/"]
+    insteadOf = "gh:"
+
 [alias]
     ci = commit
     co = checkout
     st = status -sb
     br = branch
+    cp = cherry-pick
 
     m = checkout master
     d = checkout develop
+    r = checkout release
+
+    am = commit --amend
+    amend = commit --amend -C HEAD
+    undo = reset --soft HEAD^
 
     url = config --get remote.origin.url
 
     # search commits by message
     search = "!f() { git log --all --grep=$1; }; f"
+
+    # show files ignored by git
+    ignored = ls-files -o -i --exclude-standard
 
     # show tags and any tag annotation (tito adds tag annotations for example)
     tags = tag -n1 -l

@@ -5,6 +5,7 @@ call pathogen#helptags()
 
 filetype plugin indent on
 
+" Enable/disable mouse
 function! ToggleMouse()
   if &mouse == 'a'
     set mouse=
@@ -16,6 +17,8 @@ function! ToggleMouse()
 endfunction
 nnoremap <leader>m :call ToggleMouse()<CR>
 
+" Avoid syntax-highlighting for files, larger than 100KB
+autocmd BufReadPre * if getfsize(expand("%")) > 100*1024 | syntax off | endif
 
 " Remember last location in file
 if has("autocmd")
@@ -23,6 +26,13 @@ if has("autocmd")
     \| exe "normal g'\"" | endif
 endif
 
+" Folding
+if has('folding')
+  set foldmethod=indent
+  set foldlevel=99
+  " toggle folds with space
+  nmap <space> za
+endif
 
 set backspace=indent,eol,start
 
@@ -48,11 +58,14 @@ set hlsearch
 set ignorecase
 set smartcase
 "Clear the search highlight by pressing ENTER when in Normal mode (Typing commands)
-:nnoremap <CR> :nohlsearch<CR>/<BS><CR>
+nnoremap <CR> :nohlsearch<CR>/<BS><CR>
 
 set gdefault
 
 set list listchars=tab:>·,trail:·
+
+" Symbol "-" - part of word
+set iskeyword+=-
 
 set nowrap
 set autoindent
@@ -65,9 +78,21 @@ set softtabstop=4
 vnoremap < <gv
 vnoremap > >gv
 
-set pastetoggle=<leader>v
+" \p - toggle paste mode
+set pastetoggle=<leader>p
 
+" \w - toggle text wrapping
+nmap <leader>w :set wrap! <CR>
 
+" \l - toggle line numbers
+nmap <leader>l :set number! <CR>
+
+" \s - toggle syntax highlight
+nmap <leader>s :if exists("g:syntax_on") <Bar>
+    \   syntax off <Bar>
+    \ else <Bar>
+    \   syntax enable <Bar>
+    \ endif <CR>
 
 "Solarized
 set t_Co=16
@@ -80,6 +105,7 @@ syntax enable
 set background=dark
 colorscheme solarized
 
+" \b - toggle background color
 call togglebg#map("<leader>b")
 
 "FuzzyFinder
@@ -89,12 +115,18 @@ nnoremap <silent> ffd :FufDir<CR>
 nnoremap <silent> ffj :FufJumpList<CR>
 
 " NERDTree
-nmap <leader>nt :NERDTreeFind<CR>
+" \f - find file in NerdTree
+" \t - just open NerdTree
+nmap <leader>f :NERDTreeFind<CR>
+nmap <leader>t :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=0
 let NERDTreeChDirMode=0
 let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
+
+" Open a NERDTree automatically when vim starts up if no files were specified
+autocmd vimenter * if !argc() | NERDTree | endif
 
 command W w
 command WQ wq

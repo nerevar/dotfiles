@@ -17,19 +17,12 @@ export MAGENTA="\033[1;35m"
 export CYAN="\033[1;36m"
 export WHITE="\033[1;37m"
 export BOLD=""
-export RESET="\033[m"
+export RESET="\033[00m"
 
-function parse_git_dirty() {
-	[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
-}
+source ~/dotfiles/bash/git-prompt
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export GIT_PS1_SHOWCOLORHINTS=1
 
-function parse_git_branch() {
-	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
-}
-
-function git_prompt() {
-    [[ -n $(git branch 2> /dev/null) ]] && echo -e "${BLACK}-(${YELLOW}$(parse_git_branch)${BLACK})"
-}
-
-export PS1="\[$BLACK\](\[$RED\]\t\[$BLACK\])-(\[$BLUE\]\u\[$WHITE\]@\[$MAGENTA\]\h\[$BLACK\])-(\[$GREEN\]\w\[$BLACK\])\$(git_prompt) \[$WHITE\]\$ \[$RESET\]"
+export PS1="\[$BLUE\]\u\[$WHITE\]@\[$MAGENTA\]\h \[$GREEN\]\w\[$YELLOW\]\$(__git_ps1) \[$WHITE\]\$ \[$RESET\]"
 export PS2="\[$YELLOW\]→ \[$RESET\]"
