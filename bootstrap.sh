@@ -99,6 +99,7 @@ else
         link "bash/bash_profile"  ".bash_profile"
         link "git/gitconfig"      ".gitconfig"
         link "git/gitignore"      ".gitignore"
+        link "tmux/tmux.conf"     ".tmux.conf"
         link "vim"                ".vim"
         link "vim/vimrc"          ".vimrc"
 
