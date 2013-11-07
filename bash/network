@@ -12,7 +12,7 @@ alias whois="whois -h whois-servers.net"
 function digga() { dig +nocmd "$1" any +multiline +noall +answer; }
 
 # Flush Directory Service cache
-alias flush="dscacheutil -flushcache"
+alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'

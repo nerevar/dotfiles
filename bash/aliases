@@ -10,6 +10,7 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # be nice
+alias sudo='sudo ' # Enable aliases to be sudo’ed
 alias please=sudo
 alias hosts='sudo $EDITOR /etc/hosts'
 
@@ -24,7 +25,7 @@ alias s="subl ."
 alias o="open"
 alias oo="open ."
 alias c='drawline'
-alias reload='source ~/.bash_profile'
+alias reload='exec $SHELL -l'
 alias rel='reload'
 
 # History search
@@ -148,3 +149,8 @@ extract () {
         echo "'$1' is not a valid file"
     fi
 }
+
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
