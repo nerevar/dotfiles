@@ -2,16 +2,21 @@
 
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
+alias cd..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
+
+# be nice
+alias please=sudo
+alias hosts='sudo $EDITOR /etc/hosts'
 
 # Shortcuts
 alias d="cd ~/Documents/Dropbox"
 alias p="cd ~/Projects"
 alias g="git"
-alias h="history"
 alias e="vim"
 alias v="vim"
 alias vim="vim -O"
@@ -22,8 +27,15 @@ alias c='drawline'
 alias reload='source ~/.bash_profile'
 alias rel='reload'
 
-alias h='fc -l'
-alias m='less'
+# History search
+function h() {
+    if [ -z "$1" ]
+    then
+        history | grep -v "  h" | sed 's/[ \t]*$//' | sort -k 2 -r | uniq -f 1 | sort -n
+    else
+        history | grep -v "  h" | grep $1 | sed 's/[ \t]*$//' | sort -k 2 -r | uniq -f 1 | sort -n
+    fi
+}
 
 # GIT & SVN
 alias gst='git st'
@@ -49,20 +61,28 @@ alias gitssh='sed -ie "s/git:\/\/\([^\/]*\)\/\(.*\)/git@\1:\2/g" .git/config'
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
-colorflag="--color"
+    colorflag="--color"
 else # OS X `ls`
-colorflag="-G"
+    colorflag="-G"
 fi
 
 # Listing
+alias ls="command ls ${colorflag}" # Always use color output for `ls`
 alias l="ls -l ${colorflag}"
 alias ll="ls -laFo"
 alias la="ls -la ${colorflag}"
-alias lsd='ls -l ${colorflag} | grep "^d"'
+alias lsd='ls -l ${colorflag} | grep "^d"' # List only directories
 alias ltr='ls -ltr'
 
-# Always use color output for `ls`
-alias ls="command ls ${colorflag}"
+# `cat` with beautiful colors.
+# Requires Pygments installed: sudo easy_install Pygments
+alias cc='pygmentize -O style=monokai -f console256 -g'
+
+# Create a new directory and enter it
+function md() { mkdir -p "$@" && cd "$@"; }
+
+# find shorthand
+function f() { find . -name "$1"; }
 
 export LS_COLORS='di=34:ln=35:ex=1;32:*.js=33:*.css=33:*.gz=31:*.tar=31:*.tgz=31:*.zip=31:*.bz2=31:*.deb=31:*.rpm=31:*.jar=31:*.png=32:*.jpg=32:*.jpeg=32:*.svg=32'
 
@@ -99,11 +119,5 @@ if [[ `which 'ack-grep'` != '' ]]; then
     alias ack='ack-grep'
 fi
 
-# IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias ips="ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'"
-
-# URL-encode strings
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
-
-alias pyserver="python -m CGIHTTPServer"
+# OS X has no `md5sum`, so use `md5` as a fallback
+type -t md5sum > /dev/null || alias md5sum="md5"

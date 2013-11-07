@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 
+export PATH=./node_modules/.bin:$PATH
+export PATH=~/bin:$PATH
+export PATH=~/.rvm/bin:$PATH
+
+export NODE_PATH="/usr/local/lib/node_modules"
+
 export LC_ALL="ru_RU.UTF-8"
 export LANG="ru_RU.UTF-8"
 export EDITOR="vim"
-
-export PATH=./node_modules/.bin:/usr/local/share/npm/bin:$PATH
-export NODE_PATH="/usr/local/lib/node_modules"
+# Don’t clear the screen after quitting a manual page
+export MANPAGER="less -X"
 
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
 # Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help:gst:gd:gds:sd:c:la:h"
+export HISTIGNORE="ls:ll:ls *:cd:cd -:pwd:exit:date:* --help:gst:gd:gds:sd:c:la:h"
+
+HISTTIMEFORMAT='%F %T '
+export HISTTIMEFORMAT
 
 if [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
