@@ -1,3 +1,7 @@
+" ====================================
+"         NeReVaR vim configs
+" ====================================
+
 set nocompatible
 
 call pathogen#runtime_append_all_bundles()
@@ -5,63 +9,41 @@ call pathogen#helptags()
 
 filetype plugin indent on
 
-" Enable/disable mouse
-function! ToggleMouse()
-  if &mouse == 'a'
-    set mouse=
-    echo "Mouse usage disabled"
-  else
-    set mouse=a
-    echo "Mouse usage enabled"
-  endif
-endfunction
-nnoremap <leader>m :call ToggleMouse()<CR>
+" ====================================
+"               Settings
+" ====================================
 
-" Avoid syntax-highlighting for files, larger than 100KB
-autocmd BufReadPre * if getfsize(expand("%")) > 100*1024 | syntax off | endif
+set hidden " hide buffers when they are abandoned
 
-" Remember last location in file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
-endif
+set backspace=indent,eol,start  " Allow backspace to remove indents, newlines and old tex
 
-" Folding
-if has('folding')
-  set foldmethod=indent
-  set foldlevel=99
-  " toggle folds with space
-  nmap <space> za
-endif
+set encoding=utf-8              " Default encoding"
 
-set backspace=indent,eol,start
+set nobackup                    " No backups
 
-set enc=utf-8
+set wildmenu                    " Use wildmenu ...
 
-set nobackup
+set number                      " Show line numbers
 
-set wildmenu
+set title                       " Show file name in window title
+set noruler                     " Hide ruler - show statusline instead
+set showcmd                     " Show information about the current command going on
 
-set number
+set scrolljump=5                " Scroll lines when scroll up or down
+set scrolloff=3                 " Scroll lines before and after search text
 
-set title
-set ruler
-set showcmd
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
-
-set scrolljump=5
-set scrolloff=3
-
-set incsearch
+" Search options
+set incsearch                   " Turns on incremental search
 set showmatch
 set hlsearch
 set ignorecase
 set smartcase
-"Clear the search highlight by pressing ENTER when in Normal mode (Typing commands)
+" Clear the search highlight by pressing ENTER when in Normal mode (Typing commands)
 nnoremap <CR> :nohlsearch<CR>/<BS><CR>
 
 set gdefault
 
+" Show tabs and spaces as dots
 set list listchars=tab:>·,trail:·
 
 " Symbol "-" - part of word
@@ -75,17 +57,29 @@ set shiftwidth=4
 set tabstop=4
 set softtabstop=4
 
+" ====================================
+"               Mapping
+" ====================================
+
+command W w
+command WQ wq
+command Wq wq
+command Q q
+
 vnoremap < <gv
 vnoremap > >gv
 
 " \p - toggle paste mode
 set pastetoggle=<leader>p
 
+" \l - toggle list - hightlight spaces and tabs
+nmap <leader>l :set list! <CR>
+
 " \w - toggle text wrapping
 nmap <leader>w :set wrap! <CR>
 
-" \l - toggle line numbers
-nmap <leader>l :set number! <CR>
+" \n - toggle line numbers
+nmap <leader>n :set number! <CR>
 
 " \s - toggle syntax highlight
 nmap <leader>s :if exists("g:syntax_on") <Bar>
@@ -94,22 +88,69 @@ nmap <leader>s :if exists("g:syntax_on") <Bar>
     \   syntax enable <Bar>
     \ endif <CR>
 
-"Solarized
+" Enable/disable mouse
+function! ToggleMouse()
+  if &mouse == 'a'
+    set mouse=
+    echo "Mouse usage disabled"
+  else
+    set mouse=a
+    echo "Mouse usage enabled"
+  endif
+endfunction
+nnoremap <leader>m :call ToggleMouse()<CR>
+
+" ====================================
+"               Misc
+" ====================================
+
+syntax enable
+
+" Solarized
+set background=dark
+colorscheme solarized
+
 set t_Co=16
 if has("gui_running")
     set t_Co=256
     let g:solarized_termcolors=256
 endif
 
-syntax enable
-set background=dark
-colorscheme solarized
-
 " \b - toggle background color
 call togglebg#map("<leader>b")
 
-"FuzzyFinder
+" Status line
+set laststatus=2                " Always show statusline
+
+set statusline=
+set statusline+=%7*\[%n]                                  "buffernr
+set statusline+=%1*\ %<%F\                                "File+path
+set statusline+=%2*\ %y\                                  "FileType
+set statusline+=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
+set statusline+=%3*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
+set statusline+=%4*\ %{&ff}\                              "FileFormat (dos/unix..)
+set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
+set statusline+=%9*\ col:%03c\                            "Colnr
+set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+
+" Status line colors:
+" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
+" http://images.wikia.com/vim/images/1/16/Xterm-color-table.png
+hi User1 ctermbg=0 ctermfg=4
+hi User2 ctermbg=0 ctermfg=2
+hi User3 ctermbg=0 ctermfg=8
+hi User4 ctermbg=0 ctermfg=8
+hi User5 ctermbg=0 ctermfg=8
+hi User6 ctermbg=0 ctermfg=8
+hi User7 ctermbg=0 ctermfg=8
+hi User8 ctermbg=0 ctermfg=8
+hi User9 ctermbg=0 ctermfg=8
+hi User0 ctermbg=0 ctermfg=8
+hi StatusLine ctermbg=0 ctermfg=0
+
+" FuzzyFinder
 nnoremap <silent> ffb :FufBuffer<CR>
+nnoremap <silent> <c-b> :FufBuffer<CR>
 nnoremap <silent> fff :FufFile<CR>
 nnoremap <silent> ffd :FufDir<CR>
 nnoremap <silent> ffj :FufJumpList<CR>
@@ -128,7 +169,20 @@ let NERDTreeKeepTreeInNewTab=1
 " Open a NERDTree automatically when vim starts up if no files were specified
 autocmd vimenter * if !argc() | NERDTree | endif
 
-command W w
-command WQ wq
-command Wq wq
-command Q q
+" Avoid syntax-highlighting for files, larger than 100KB
+autocmd BufReadPre * if getfsize(expand("%")) > 100*1024 | syntax off | endif
+
+" Remember last location in file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal g'\"" | endif
+endif
+
+" Folding
+if has('folding')
+  set foldmethod=indent
+  set foldlevel=99
+  " toggle folds with space
+  nmap <space> za
+endif
+

@@ -3,6 +3,7 @@
 declare -a files=(
     $HOME/dotfiles/bash/exports # Configuration
     $HOME/dotfiles/bash/aliases # Aliases
+    $HOME/dotfiles/bash/functions # Functions
     $HOME/dotfiles/bash/network # Aliases for networking
     $HOME/dotfiles/bash/prompt # Custom bash prompt
     $HOME/dotfiles/git/git-completion.bash # Git tab-completion for bash
