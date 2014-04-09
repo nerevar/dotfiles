@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
 export PATH=./node_modules/.bin:$PATH
+export PATH=~/node_modules/.bin:$PATH
+export PATH=/usr/local/share/npm/bin:$PATH
 export PATH=~/bin:$PATH
+export PATH=~/dotfiles/bin:$PATH
+export PATH=~/dotfiles/yandex/bin:$PATH
+export PATH=/usr/local/php5/bin:$PATH
 export PATH=~/.rvm/bin:$PATH
+export PATH=~/android-sdk-macosx/platform-tools:$PATH
 
 export NODE_PATH="/usr/local/lib/node_modules"
 
@@ -19,21 +25,13 @@ export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
 # Make some commands not show up in history
-export HISTIGNORE="ls:ll:ls *:cd:cd -:pwd:exit:date:* --help:gst:gd:gds:sd:c:la:h"
+export HISTIGNORE="ls:ll:la:cd:cd -:pwd:exit:date:* --help:gst:gd:gds:sd:c:la:h"
 
 HISTTIMEFORMAT='%F %T '
 export HISTTIMEFORMAT
 
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
-
-# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
-# the `.git` directory, listing directories first. The output gets piped into
-# `less` with options to preserve color and line numbers, unless the output is
-# small enough for one screen.
-function tre() {
-    tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
-}
 
 if [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion

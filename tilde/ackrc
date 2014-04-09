@@ -1,0 +1,21 @@
+#--color-filename=white
+#--color-lineno=cyan
+#--color-match=magenta underline
+--ignore-dir=.idea
+--ignore-dir=build
+--ignore-dir=node_modules
+--ignore-dir=pages-desktop
+--ignore-dir=pages-touch
+--ignore-dir=lego
+--ignore-dir=bem-components
+--ignore-dir=bem-bl
+--ignore-dir=islands-components
+--ignore-dir=islands-user
+--ignore-dir=islands-services
+--ignore-dir=islands-media
+--ignore-dir=islands-search
+--ignore-dir=islands-page
+--type-add=css=.styl
+--type-add=js=.coffee
+--type-add=bemhtml=.bemhtml
+--type-set=md=.markdown,.md

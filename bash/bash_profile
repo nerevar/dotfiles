@@ -3,6 +3,7 @@
 declare -a files=(
     $HOME/dotfiles/bash/exports # Configuration
     $HOME/dotfiles/bash/aliases # Aliases
+    $HOME/dotfiles/bash/osx     # MacOS X customize
     $HOME/dotfiles/bash/functions # Functions
     $HOME/dotfiles/bash/network # Aliases for networking
     $HOME/dotfiles/bash/prompt # Custom bash prompt
@@ -11,6 +12,7 @@ declare -a files=(
     $HOME/dotfiles/bash/bash_paths # Path modifications (must source after `.bash_profile.local` in case of custom `brew` location)
     $HOME/dotfiles/bash/tmux # tmux / screen configs
     $HOME/.rvm/scripts/rvm # Load Ruby RVM into a shell session *as a function*
+    $HOME/dotfiles/yandex/functions # Yandex specific aliases & functions
 )
 
 # If these files are readable, source them

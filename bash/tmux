@@ -25,3 +25,44 @@ function tm-pair
     fi
 }
 
+# Creates new tmux session for developing specific project. Opens initial windows/panes
+# Syntax:
+#    tm-new [session-name] [project]
+function tm-new
+{
+    SESSION=$1
+
+    # create session-name
+    if [ -z $SESSION ] || [ $SESSION == '-' ]; then
+        # find last session with name "work-NNN"
+        SESSION=`tm ls 2>/dev/null | awk -F ':' '{print $1}' | grep work- | sort -n | tail -n1 | awk -F '-' '{print "work-"$2+1}'`
+        [ -z $SESSION ] && SESSION='work-1'
+    fi
+
+    tm new-session -d -s $SESSION
+
+    # Setup a main window
+    tm rename-window -t $SESSION:0 'Main'
+    tm send-keys "cd ~" C-m
+
+    # Window 2 - project
+    #tm new-window -t $SESSION:2 -n 'project'
+    #tm split-window -h
+    #tm select-pane -t 0
+    #tm send-keys "cd ~/work" C-m
+    #tm select-pane -t 1
+    #tm send-keys "cd ~/work/project" C-m
+    #tm resize-pane -D 20
+
+    # Window 3 - dotfiles
+    tm new-window -t $SESSION:1 -n 'dotfiles'
+    tm send-keys "cd ~/dotfiles" C-m
+
+    # Set default window
+    tm select-window -t $SESSION:0
+
+    # Attach to session
+    tm attach-session -t $SESSION
+
+}
+

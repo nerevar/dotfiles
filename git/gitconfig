@@ -61,6 +61,8 @@
     # show files ignored by git
     ignored = ls-files -o -i --exclude-standard
 
+    praise = blame
+
     # show tags and any tag annotation (tito adds tag annotations for example)
     tags = tag -n1 -l
 

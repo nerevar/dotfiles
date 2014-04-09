@@ -120,33 +120,52 @@ endif
 call togglebg#map("<leader>b")
 
 " Status line
-set laststatus=2                " Always show statusline
+set laststatus=2                                        " Always show statusline
 
 set statusline=
-set statusline+=%7*\[%n]                                  "buffernr
-set statusline+=%1*\ %<%F\                                "File+path
-set statusline+=%2*\ %y\                                  "FileType
-set statusline+=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}      "Encoding
-set statusline+=%3*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
-set statusline+=%4*\ %{&ff}\                              "FileFormat (dos/unix..)
-set statusline+=%8*\ %=\ row:%l/%L\ (%03p%%)\             "Rownumber/total (%)
-set statusline+=%9*\ col:%03c\                            "Colnr
-set statusline+=%0*\ \ %m%r%w\ %P\ \                      "Modified? Readonly? Top/bot.
+set statusline+=%1*\[%n]                                "buffernr
+set statusline+=%2*\%<%F\                               "File+path
+set statusline+=%3*\ %y\                                "FileType
+set statusline+=\ %{FileSize()}\                        "FileSize
+set statusline+=%4*\ %{''.(&fenc!=''?&fenc:&enc).''}    "Encoding
+set statusline+=%{(&bomb?\",BOM\":\"\")}\               "Encoding2
+set statusline+=\ %{&ff}\                               "FileFormat (dos/unix..)
+set statusline+=%5*\%=\ %6*\row:%l/%L\ (%03p%%)\            "Rownumber/total (%)
+set statusline+=col:%03c\                               "Colnr
+set statusline+=\ %m%r%w\ %P\ \                         "Modified? Readonly? Top/bot.
 
 " Status line colors:
 " http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
 " http://images.wikia.com/vim/images/1/16/Xterm-color-table.png
-hi User1 ctermbg=0 ctermfg=4
-hi User2 ctermbg=0 ctermfg=2
-hi User3 ctermbg=0 ctermfg=8
+hi User1 ctermbg=0 ctermfg=8
+hi User2 ctermbg=0 ctermfg=4
+hi User3 ctermbg=0 ctermfg=2
 hi User4 ctermbg=0 ctermfg=8
 hi User5 ctermbg=0 ctermfg=8
 hi User6 ctermbg=0 ctermfg=8
-hi User7 ctermbg=0 ctermfg=8
-hi User8 ctermbg=0 ctermfg=8
-hi User9 ctermbg=0 ctermfg=8
-hi User0 ctermbg=0 ctermfg=8
-hi StatusLine ctermbg=0 ctermfg=0
+
+" Find out current buffer's size and output it.
+function! FileSize()
+        let bytes = getfsize(expand('%:p'))
+        if (bytes >= 1024)
+                let kbytes = bytes / 1024
+        endif
+        if (exists('kbytes') && kbytes >= 1000)
+                let mbytes = kbytes / 1000
+        endif
+
+        if bytes <= 0
+                return 'null'
+        endif
+
+        if (exists('mbytes'))
+                return mbytes . 'MB'
+        elseif (exists('kbytes'))
+                return kbytes . 'KB'
+        else
+                return bytes . 'B'
+        endif
+endfunction
 
 " FuzzyFinder
 nnoremap <silent> ffb :FufBuffer<CR>
@@ -162,7 +181,6 @@ nmap <leader>f :NERDTreeFind<CR>
 nmap <leader>t :NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=0
 let NERDTreeChDirMode=0
-let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
 

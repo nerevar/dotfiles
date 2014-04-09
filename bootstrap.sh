@@ -102,6 +102,7 @@ else
         link "tmux/tmux.conf"     ".tmux.conf"
         link "vim"                ".vim"
         link "vim/vimrc"          ".vimrc"
+        link "tilde/ackrc"        ".ackrc"
 
         printf "Dotfiles update complete!\n"
     }
