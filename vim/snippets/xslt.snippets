@@ -1,81 +1,97 @@
-snippet in
-	<xsl:include href="${1}"/>
-snippet im
-	<xsl:import href="${1}"/>
-snippet ai
-	<xsl:apply-imports/>
-snippet an
-	<xsl:attribute name="${1}">${2}</xsl:attribute>
-snippet at
-	<xsl:apply-templates/>
-snippet ats
-	<xsl:apply-templates select="${1}"/>
-snippet atsm
-	<xsl:apply-templates select="${1}" mode="${2}"/>
-snippet cos
-	<xsl:copy-of select="${1}"/>
-snippet ctn
-	<xsl:call-template name="${1}"/>
-snippet ctnwp
-	<xsl:call-template name="${1}">
-		<xsl:with-param name="${2}" select="${3}"/>
-	</xsl:call-template>
-snippet cwt
+snippet apply-templates with-param
+	<xsl:apply-templates select="${1:*}">
+		<xsl:with-param name="${2:param}">${3}</xsl:with-param>${4}
+	</xsl:apply-templates>${5}
+
+snippet apply-templates sort-by
+	<xsl:apply-templates select="${1:*}">
+		<xsl:sort select="${2:node}" order="${3:ascending}" data-type="${4:text}">${5}
+	</xsl:apply-templates>${6}
+
+snippet apply-templates 
+	<xsl:apply-templates select="${1:*}" />${2}
+
+snippet attribute blank
+	<xsl:attribute name="${1:name}">${2}</xsl:attribute>${3}
+
+snippet attribute value-of
+	<xsl:attribute name="${1:name}">
+		<xsl:value-of select="${2:*}" />
+	</xsl:attribute>${3}
+
+snippet call-template
+	<xsl:call-template name="${1:template}" />
+
+snippet call-template with-param
+	<xsl:call-template name="${1:template}">
+		<xsl:with-param name="${2:param}">${3}</xsl:with-param>${4}
+	</xsl:call-template>${5}
+
+snippet choose
 	<xsl:choose>
-		<xsl:when test="${1}">
+		<xsl:when test="${1:value}">
 			${2}
-		</xsl:when>
-	</xsl:choose>"
-snippet cwto
-	<xsl:choose>
-		<xsl:when test="${1}">
-			${2}
-		</xsl:when>
-		<xsl:otherwise>
-			${3}
-		</xsl:otherwise>
+		</xsl:when>${3}
 	</xsl:choose>
-snippet en
-	<xsl:element name="${1}">${2}</xsl:element>
-snippet fe
-	<xsl:for-each select="${1}">
-		${2}
-	</xsl:for-each>
-snippet it
-	<xsl:if test="${1}">
-		${2}
-	</xsl:if>
-snippet kn
-	<xsl:key name="${1}" match="${2}" use="${3}"/>
-snippet o
-	<xsl:otherwise>
-		${1}
+
+snippet copy-of
+	<xsl:copy-of select="${1:*}" />${2}
+
+snippet for-each
+	<xsl:for-each select="${1:*}">${2}
+	</xsl:for-each>${3}
+
+snippet if
+	<xsl:if test="${1:test}">${2}
+	</xsl:if>${3}
+
+snippet import
+	<xsl:import href="${1:stylesheet}" />${2}
+
+snippet include
+	<xsl:include href="${1:stylesheet}" />${2}
+	
+snippet otherwise
+	<xsl:otherwise>${1}
 	</xsl:otherwise>
-snippet pn
-	<xsl:param name="${1}"/>
-snippet tm
-	<xsl:template match="${1}">
-		${2}
+
+snippet param
+	<xsl:param name="${1:name}">${2}
+	</xsl:param>${3}
+
+snippet stylesheet
+	<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">${1}
+	</xsl:stylesheet>
+
+snippet template 
+	<xsl:template match="${1:*}">${3}
 	</xsl:template>
-snippet tmm
-	<xsl:template match="${1}" mode="${2}">
-		${3}
+
+snippet template named
+	<xsl:template name="${1:name}">${2}
 	</xsl:template>
-snippet tn
-	<xsl:template name="${1}">
-		${2}
-	</xsl:template>
-snippet tt
+
+snippet text
 	<xsl:text>${1}</xsl:text>
-snippet vn
-	<xsl:variable name="${1}">${2}</xsl:variable>
-snippet vns
-	<xsl:variable name="${1}" select="${2}"/>
-snippet vos
-	<xsl:value-of select="${1}"/>
-snippet wp
-	<xsl:with-param name="${1}" select="${2}"/>
-snippet wpn
-	<xsl:with-param name="${1}" select="${2}"/>
-snippet wt
-	<xsl:when test="${1}">${2}</xsl:when>
+
+snippet value-of
+	<xsl:value-of select="${1:*}" />${2}
+
+snippet variable blank
+	<xsl:variable name="${1:name}">${2}
+	</xsl:variable>
+
+snippet variable select
+	<xsl:variable select="${1:*}" />${2}
+
+snippet when
+	<xsl:when test="${1:test}">${2}
+	</xsl:when>
+
+snippet with-param
+	<xsl:with-param name="${1:name}">${2}</xsl:with-param>
+	
+snippet with-param select
+	<xsl:with-param name="${1:name}" select="${2:*}" />
+	

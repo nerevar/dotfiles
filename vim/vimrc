@@ -1,61 +1,291 @@
-" ====================================
-"         NeReVaR vim configs
-" ====================================
+scriptencoding utf-8
 
 set nocompatible
 
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+" NEOBUNDLE {{{ ===============================================================
+
+filetype off             " Turn off filetype plugins before bundles init
+
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+let g:neobundle#types#git#clone_depth = 1
+
+call neobundle#begin(expand('~/.vim/bundle'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" BUNDLES (plugins administrated by NeoBundle) {{{
+
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'bling/vim-airline'               " Lean & mean status/tabline for vim that's light as air.
+
+NeoBundle 'Shougo/unite.vim'
+" NeoBundle 'Shougo/neocomplcache'
+" NeoBundle 'Shougo/neosnippet'
+" NeoBundle 'Shougo/neosnippet-snippets'
+
+" Vimproc to asynchronously run commands (NeoBundle, Unite)
+NeoBundle 'Shougo/vimproc', {
+            \ 'build' : {
+            \     'mac' : 'make -f make_mac.mak',
+            \     'unix' : 'make -f make_unix.mak',
+            \    },
+            \ }
+
+" NeoBundle 'jpalardy/vim-slime'            " Grab some text and "send" it to a GNU Screen / tmux / whimrepl session.
+NeoBundle 'Raimondi/delimitMate'            " Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
+NeoBundle 'tpope/vim-commentary'            " comment stuff out
+NeoBundle 'tpope/vim-repeat'                " enable repeating supported plugin maps with '.'
+NeoBundle 'tpope/vim-surround'              " quoting/parenthesizing made simple
+NeoBundle 'rking/ag.vim'                    " plugin for the_silver_searcher, 'ag', a replacement for the Perl module / CLI script 'ack'
+
+NeoBundle 'gregsexton/MatchTag'
+" NeoBundleLazy 'othree/html5.vim', { 'autoload': { 'filetypes': ['html', 'css'] } }
+" NeoBundle 'skammer/vim-css-color'
+" NeoBundle 'hail2u/vim-css3-syntax'
+" NeoBundle 'ignovak/vim-web-indent'
+" NeoBundle 'walm/jshint.vim'
+
+" NeoBundle 'miripiruni/CSScomb-for-Vim'
+
+" NeoBundle 'ignovak/vim-translator'
+
+" NeoBundle 'ujihisa/unite-colorscheme'
+
+" NeoBundle 'vim-speeddating'
+
+" HTML/HAML
+" NeoBundle 'hokaccha/vim-html5validator'
+
+" CSS/LESS
+" JavaScript
+" NeoBundle 'pangloss/vim-javascript'
+" NeoBundle 'itspriddle/vim-jquery'
+" JSON
+" NeoBundle 'leshill/vim-json'
+
+" NeoBundle 'tpope/vim-rails'
+" NeoBundle 'tpope/vim-haml'
+" NeoBundle 'kchmck/vim-coffee-script'
+" NeoBundle 'klen/vim-jsmode'
+" NeoBundle 'mattn/gist-vim'
+
+" NeoBundle 'davidhalter/jedi-vim'
+
+" END BUNDLES }}}
+
+call neobundle#end()
+
+NeoBundleCheck
+
+" }}}
 
 filetype plugin indent on
+syntax on
 
-" ====================================
-"               Settings
-" ====================================
+" General options
+set exrc secure             " Enable per-directory .vimrc files and disable unsafe commands in them
 
-set hidden " hide buffers when they are abandoned
+" Buffer options
+set hidden                  " hide buffers when they are abandoned
+set autoread                " auto reload changed files
 
-set backspace=indent,eol,start  " Allow backspace to remove indents, newlines and old tex
-
-set encoding=utf-8              " Default encoding"
-
-set nobackup                    " No backups
-
-set wildmenu                    " Use wildmenu ...
-
-set number                      " Show line numbers
-
-set title                       " Show file name in window title
-set noruler                     " Hide ruler - show statusline instead
-set showcmd                     " Show information about the current command going on
-
-set scrolljump=5                " Scroll lines when scroll up or down
-set scrolloff=3                 " Scroll lines before and after search text
-
-" Search options
-set incsearch                   " Turns on incremental search
-set showmatch
-set hlsearch
-set ignorecase
-set smartcase
-" Clear the search highlight by pressing ENTER when in Normal mode (Typing commands)
-nnoremap <CR> :nohlsearch<CR>/<BS><CR>
-
-set gdefault
-
-" Show tabs and spaces as dots
-set list listchars=tab:>·,trail:·
-
-" Symbol "-" - part of word
-set iskeyword+=-
+" Display options
+set term=xterm-256color
+set shortmess=aTI           " Do not display greetings message at the time of Vim start.
+set title                   " show file name in window title
+set novisualbell            " mute error bell
+set t_vb=
+set list
+set listchars=tab:⇥\ ,trail:·,extends:⋯,precedes:⋯,nbsp:~
+set linebreak               " break lines by words
+set scrolljump=5
+set sidescroll=4
+set sidescrolloff=10
+set showcmd
+set whichwrap=b,s,<,>,[,],l,h
+set completeopt=menu,preview
+set infercase
+set ruler
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
+set ttyfast                 " Optimize for fast terminal connections
+set shortmess=atI           " Don’t show the intro message when starting Vim
+set nostartofline
 
 set nowrap
-set autoindent
-set smartindent
-set expandtab
-set shiftwidth=4
+
+" Tab options
+set autoindent              " copy indent from previous line
+set smartindent             " enable nice indent
+set expandtab               " tab with spaces
+set smarttab                " indent using shiftwidth"
+set shiftwidth=4            " number of spaces to use for each step of indent
 set tabstop=4
-set softtabstop=4
+set softtabstop=4           " tab like 4 spaces
+set shiftround              " drop unused spaces
+
+" Search options
+set gdefault                " Add the g flag to search/replace by default
+set hlsearch                " Highlight search results
+set ignorecase              " Ignore case in search patterns
+set smartcase               " Override the 'ignorecase' option if the search pattern contains upper case characters
+set incsearch               " While typing a search command, show where the pattern
+nnoremap <silent> <cr> :nohlsearch<cr><cr>
+
+" Matching characters
+set showmatch               " Show matching brackets
+set matchpairs+=<:>         " Make < and > match as well
+
+" Localization
+set langmenu=none            " Always use english menu
+set keymap=russian-jcukenwin " Alternative keymap
+highlight lCursor guifg=NONE guibg=Cyan
+set iminsert=0               " English by default
+set imsearch=-1              " Search keymap from insert mode
+set spelllang=en,ru          " Languages
+" set spell
+set encoding=utf-8           " Default encoding
+set fileencodings=utf-8,cp1251,koi8-r,cp866
+set termencoding=utf-8
+set fileformat=unix
+
+" Wildmenu
+set wildmenu                " use wildmenu ...
+set wildcharm=<TAB>
+set wildignore+=*.pyc        " ignore file pattern
+set wildignore+=*.be.*,*.kk.*,*.tt.*,*.uk.*
+
+" Folding
+if has('folding')
+    set foldmethod=indent
+    set foldlevel=99
+endif
+nnoremap <Space> za
+
+" Edit
+set backspace=indent,eol,start " Allow backspace to remove indents, newlines and old tex"
+" set virtualedit=block
+set pastetoggle=<leader>p
+set iskeyword+=-
+
+" Don't create backup.
+set nowritebackup
+set nobackup
+set noswapfile
+set backupdir-=.
+set noeol
+
+set diffopt=filler
+set diffopt+=vertical
+set diffopt+=iwhite
+
+" Color scheme
+set t_Co=256
+let g:solarized_termcolors=256
+let g:solarized_contrast='high'
+let g:solarized_termtrans=1
+
+set background=light
+colorscheme solarized
+
+" Status line
+let g:airline_theme='powerlineish'
+set laststatus=2                                        " Always show statusline
+set noshowmode
+
+" NERDTree
+let NERDTreeShowHidden=1
+let NERDTreeShowBookmarks=0
+let NERDTreeChDirMode=0
+let NERDTreeKeepTreeInNewTab=1
+let NERDTreeAutoDeleteBuffer=0
+nmap <silent> <leader>t :NERDTreeToggle<CR>
+nmap <silent> <leader>f :NERDTreeFind<CR>
+
+if has("autocmd")
+
+    augroup vimrc
+        au!
+        " Auto reload vim settings
+        au BufWritePost *.vim source $MYVIMRC
+        au BufWritePost .vimrc source $MYVIMRC
+
+        " Restore cursor position
+        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+                    \| exe "normal g'\"" | endif
+
+        " Filetypes
+        au FileType htmldjango set ft=html.htmldjango
+
+        au FileType vim setlocal sw=2
+        au FileType vim setlocal ts=2
+        au FileType vim setlocal sts=2
+        au FileType vim nnoremap <leader>x 0y$:<c-r>"<cr>
+
+        au FileType scss set ft=scss.css
+        au FileType less set ft=less.css
+        au! FileType sass,scss syn cluster sassCssAttributes add=@cssColors
+
+        au BufRead,BufNewFile *.js set ft=javascript.javascript-jquery
+        au BufRead,BufNewFile *.json set ft=javascript
+        " au BufRead,BufNewFile *.json set equalprg=python\ -mjson.tool
+        au BufRead,BufNewFile *.bemhtml set ft=javascript
+        au BufRead,BufNewFile *.xjst set ft=javascript
+
+        au BufRead,BufNewFile *.tt2 set ft=tt2
+
+        au BufRead,BufNewFile *.plaintex set ft=plaintex.tex
+
+        au BufRead,BufNewFile *.html nmap <leader>o :!open %<cr>
+
+        " Avoid syntax-highlighting for files larger than 10MB
+        au BufReadPre * if getfsize(expand("%")) > 10000*1024 | syntax off | endif
+
+        " Auto close preview window
+        autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+        autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+    augroup END
+
+endif
+
+" Unite
+
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#custom#source('file_rec,file_rec/async,grep', 'ignore_pattern', join(['\.git/', 'tmp/', 'bundle/', 'node_modules/', 'libs/', 'log/'], '\|'))
+call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 10000)
+
+let g:unite_source_buffer_time_format = ''
+" let g:unite_enable_start_insert = 1
+" let g:unite_split_rule = "botright"
+" let g:unite_force_overwrite_statusline = 0
+" let g:unite_winheight = 10
+" let g:unite_candidate_icon="▷"
+
+nmap <space> [unite]
+nnoremap [unite] <nop>
+
+nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr><c-u>
+nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -start-insert -buffer-name=files file_rec/async<cr>
+nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
+nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+nnoremap <silent> [unite]* :<C-u>UniteWithCursorWord -no-quit -buffer-name=search grep:.<cr>
+nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
+" nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+
+if executable('ag')
+    let g:unite_source_grep_command='ag'
+    let g:unite_source_grep_default_opts='--nocolor --nogroup --hidden -S'
+    let g:unite_source_grep_recursive_opt=''
+    let g:unite_source_grep_search_word_highlight = 1
+elseif executable('ack')
+    let g:unite_source_grep_command='ack'
+    let g:unite_source_grep_default_opts='--no-group --no-color'
+    let g:unite_source_grep_recursive_opt=''
+    let g:unite_source_grep_search_word_highlight = 1
+endif
 
 " ====================================
 "               Mapping
@@ -82,125 +312,16 @@ nmap <leader>w :set wrap! <CR>
 nmap <leader>n :set number! <CR>
 
 " \s - toggle syntax highlight
-nmap <leader>s :if exists("g:syntax_on") <Bar>
+nmap <leader>h :if exists("g:syntax_on") <Bar>
     \   syntax off <Bar>
     \ else <Bar>
     \   syntax enable <Bar>
     \ endif <CR>
 
-" Enable/disable mouse
-function! ToggleMouse()
-  if &mouse == 'a'
-    set mouse=
-    echo "Mouse usage disabled"
-  else
-    set mouse=a
-    echo "Mouse usage enabled"
-  endif
-endfunction
-nnoremap <leader>m :call ToggleMouse()<CR>
+" Save file by <leader>s
+nmap <leader>s :w<cr>
+imap <leader>s <esc>:w<cr>
 
-" ====================================
-"               Misc
-" ====================================
-
-syntax enable
-
-" Solarized
-set background=dark
-colorscheme solarized
-
-set t_Co=16
-if has("gui_running")
-    set t_Co=256
-    let g:solarized_termcolors=256
-endif
-
-" \b - toggle background color
-call togglebg#map("<leader>b")
-
-" Status line
-set laststatus=2                                        " Always show statusline
-
-set statusline=
-set statusline+=%1*\[%n]                                "buffernr
-set statusline+=%2*\%<%F\                               "File+path
-set statusline+=%3*\ %y\                                "FileType
-set statusline+=\ %{FileSize()}\                        "FileSize
-set statusline+=%4*\ %{''.(&fenc!=''?&fenc:&enc).''}    "Encoding
-set statusline+=%{(&bomb?\",BOM\":\"\")}\               "Encoding2
-set statusline+=\ %{&ff}\                               "FileFormat (dos/unix..)
-set statusline+=%5*\%=\ %6*\row:%l/%L\ (%03p%%)\            "Rownumber/total (%)
-set statusline+=col:%03c\                               "Colnr
-set statusline+=\ %m%r%w\ %P\ \                         "Modified? Readonly? Top/bot.
-
-" Status line colors:
-" http://vim.wikia.com/wiki/Xterm256_color_names_for_console_Vim
-" http://images.wikia.com/vim/images/1/16/Xterm-color-table.png
-hi User1 ctermbg=0 ctermfg=8
-hi User2 ctermbg=0 ctermfg=4
-hi User3 ctermbg=0 ctermfg=2
-hi User4 ctermbg=0 ctermfg=8
-hi User5 ctermbg=0 ctermfg=8
-hi User6 ctermbg=0 ctermfg=8
-
-" Find out current buffer's size and output it.
-function! FileSize()
-        let bytes = getfsize(expand('%:p'))
-        if (bytes >= 1024)
-                let kbytes = bytes / 1024
-        endif
-        if (exists('kbytes') && kbytes >= 1000)
-                let mbytes = kbytes / 1000
-        endif
-
-        if bytes <= 0
-                return 'null'
-        endif
-
-        if (exists('mbytes'))
-                return mbytes . 'MB'
-        elseif (exists('kbytes'))
-                return kbytes . 'KB'
-        else
-                return bytes . 'B'
-        endif
-endfunction
-
-" FuzzyFinder
-nnoremap <silent> ffb :FufBuffer<CR>
-nnoremap <silent> <c-b> :FufBuffer<CR>
-nnoremap <silent> fff :FufFile<CR>
-nnoremap <silent> ffd :FufDir<CR>
-nnoremap <silent> ffj :FufJumpList<CR>
-
-" NERDTree
-" \f - find file in NerdTree
-" \t - just open NerdTree
-nmap <leader>f :NERDTreeFind<CR>
-nmap <leader>t :NERDTreeToggle<CR>
-let NERDTreeShowBookmarks=0
-let NERDTreeChDirMode=0
-let NERDTreeShowHidden=1
-let NERDTreeKeepTreeInNewTab=1
-
-" Open a NERDTree automatically when vim starts up if no files were specified
-autocmd vimenter * if !argc() | NERDTree | endif
-
-" Avoid syntax-highlighting for files, larger than 100KB
-autocmd BufReadPre * if getfsize(expand("%")) > 100*1024 | syntax off | endif
-
-" Remember last location in file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
-endif
-
-" Folding
-if has('folding')
-  set foldmethod=indent
-  set foldlevel=99
-  " toggle folds with space
-  nmap <space> za
-endif
-
+" Open files in new split
+nnoremap gs :vertical wincmd f<CR>
+nnoremap gi :rightbelow wincmd f<CR>
