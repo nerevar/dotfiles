@@ -21,11 +21,12 @@ alias g="git"
 alias e="vim"
 alias v="vim"
 alias vim="vim -O"
+alias vimrc="vim ~/dotfiles/vim/vimrc"
 alias subl='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
 alias s="subl ."
 alias o="open"
 alias oo="open ."
-alias c='drawline'
+alias c='drawline; history -a'
 alias reload='exec $SHELL -l'
 alias rel='reload'
 
@@ -38,6 +39,7 @@ alias g1='git log -1'
 
 # цветной diff git
 gd() { git diff "${@}" | colordiff; }
+gdd() { git diff "${@}" | colordiff | less -r; }
 gds() { git diff --staged "${@}" | colordiff; }
 alias gdc=gds
 sd() { svn diff "${@}" | colordiff; }
@@ -67,8 +69,21 @@ alias cc='pygmentize -O style=monokai -f console256 -g'
 # Create a new directory and enter it
 md() { mkdir -p "$@" && cd "$@"; }
 
-# find shorthand
-f() { find . -name "$@"; }
+alias mytop="top -u yellowduck"
+
+# ========================================
+# File search
+# ========================================
+
+# find file by name
+function ff () {
+    find . -name "$1"
+}
+
+# find file by pattern
+function ffp () {
+    find . -name '*'"$1"'*'
+}
 
 export LS_COLORS='di=34:ln=35:ex=1;32:*.js=33:*.css=33:*.gz=31:*.tar=31:*.tgz=31:*.zip=31:*.bz2=31:*.deb=31:*.rpm=31:*.jar=31:*.png=32:*.jpg=32:*.jpeg=32:*.svg=32'
 
@@ -78,7 +93,7 @@ _expand()
 }
 
 # Misc
-alias mine='sudo chown -R $USER:www .'
+alias mine='sudo chown -R $USER .'
 
 # Universal make
 if [[ `which gmake` != '' ]]; then
@@ -99,3 +114,5 @@ type -t md5sum > /dev/null || alias md5sum="md5"
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
+
+promote() { sudo adduser "$@" sudo; }

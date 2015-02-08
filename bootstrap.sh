@@ -108,6 +108,7 @@ else
     }
 
     mirrorfiles
+    sh ${HOME}/.vim/install.sh
     source ${HOME}/.bash_profile
 
 fi

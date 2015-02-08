@@ -11,6 +11,7 @@ declare -a files=(
     $HOME/.bash_profile.local # Local and private settings not under version control (e.g. git credentials)
     $HOME/dotfiles/bash/bash_paths # Path modifications (must source after `.bash_profile.local` in case of custom `brew` location)
     $HOME/dotfiles/bash/tmux # tmux / screen configs
+    $HOME/dotfiles/bash/python # python configs
     $HOME/.rvm/scripts/rvm # Load Ruby RVM into a shell session *as a function*
     $HOME/dotfiles/yandex/functions # Yandex specific aliases & functions
 )

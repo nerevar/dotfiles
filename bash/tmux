@@ -11,17 +11,16 @@ fi
 function tm { tmux -2 -S /tmp/tm-`whoami` "$@"; }
 
 # Tmux session alias for pair-programming
-# Syntax:
-#    Server:
-#        tm-pair <feature>
-#    Client:
-#        tm-pair <user> <feature>
 function tm-pair
 {
     if [ ${2} ]; then
         tmux -2 -S /tmp/tm-${1} attach -t ${2}
-    else
+    elif [ ${1} ]; then
         tmux -2 -S /tmp/tm-`whoami` new -s ${1}
+    else
+        echo 'Usage:'
+        echo 'tm-pair feature_name # Create session'
+        echo 'tm-pair user_name feature_name # Attach to session'
     fi
 }
 

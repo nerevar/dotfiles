@@ -17,5 +17,4 @@
 --ignore-dir=islands-page
 --type-add=css=.styl
 --type-add=js=.coffee
---type-add=bemhtml=.bemhtml
 --type-set=md=.markdown,.md

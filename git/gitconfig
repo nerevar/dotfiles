@@ -66,6 +66,10 @@
     # show tags and any tag annotation (tito adds tag annotations for example)
     tags = tag -n1 -l
 
+    # show changed files in current branch
+    files = diff dev...HEAD --stat
+    dogefiles = diff images-viewer/IMAGES-5662...HEAD --stat
+
     # Display the number of commits per author in numerical order
     who = shortlog -sn --
 
@@ -85,6 +89,8 @@
     assumed  = "!git ls-files -v | grep ^h | cut -c 3-"
 
     snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+
+    fm = "!sh -c 'git show `git rev-list --ancestry-path $0..dev --merges | tail -f`'"
 
     # easy merge
     ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
