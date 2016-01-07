@@ -1,0 +1,31 @@
+brew-cask
+
+# languages
+node
+nvm
+
+# special utils
+the_silver_searcher # ag
+thefuck # fuck
+httpie  # humen friendly wget
+
+# standart utils
+tmux
+tree
+vim
+wget
+ssh-copy-id
+
+# shell
+bash-completion
+git
+ack
+rename
+icdiff
+
+# misc
+colordiff
+dnsmasq
+htop-osx
+imagemagick
+lynx
