@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Find pull request for startrack task
+#
+# $1 - Startrack Issue Key
+#
+# Examples:
+#
+#   git pr IMAGESUI-2935
+#
+# Should install:
+#
+# [[ $(which json) ]] || npm i -g json
+# [[ $(which http) ]] || npm i -g httpie
+
+curl -H "Authorization: OAuth 16bfd346d78e4a40a14152f21bdba9d3" "https://st-api.yandex-team.ru/v2/issues/$1/remotelinks" 2> /dev/null | json -a object.id | sed -E 's|pull:(.+)/([0-9]+)|https://github.yandex-team.ru/\1/pull/\2/|'

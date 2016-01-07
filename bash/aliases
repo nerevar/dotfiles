@@ -12,40 +12,24 @@ alias -- -="cd -"
 # be nice
 alias sudo='sudo ' # Enable aliases to be sudo’ed
 alias please=sudo
+alias fuck='eval $(thefuck $(fc -ln -1)); history -r'
 alias hosts='sudo $EDITOR /etc/hosts'
 
 # Shortcuts
 alias d="cd ~/Documents/Dropbox"
-alias p="cd ~/Projects"
-alias g="git"
+alias y="cd ~/Yandex.Disk.localized"
 alias e="vim"
 alias v="vim"
 alias vim="vim -O"
 alias vimrc="vim ~/dotfiles/vim/vimrc"
-alias subl='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
+alias subl='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
 alias s="subl ."
 alias o="open"
 alias oo="open ."
-alias c='drawline; history -a'
 alias reload='exec $SHELL -l'
 alias rel='reload'
 
-# GIT & SVN
-alias gst='git st'
-alias gs=gst
-
-alias g1='git log -1'
-#alias s1='svn log -l1'
-
-# цветной diff git
-gd() { git diff "${@}" | colordiff; }
-gdd() { git diff "${@}" | colordiff | less -r; }
-gds() { git diff --staged "${@}" | colordiff; }
-alias gdc=gds
-sd() { svn diff "${@}" | colordiff; }
-
-# replace git read-only protocol to pushable ssh in current git repo
-alias gitssh='sed -ie "s/git:\/\/\([^\/]*\)\/\(.*\)/git@\1:\2/g" .git/config'
+export LS_COLORS='di=34:ln=35:ex=1;32:*.js=33:*.css=33:*.gz=31:*.tar=31:*.tgz=31:*.zip=31:*.bz2=31:*.deb=31:*.rpm=31:*.jar=31:*.png=32:*.jpg=32:*.jpeg=32:*.svg=32'
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -64,7 +48,8 @@ alias ltr='ls -ltr'
 
 # `cat` with beautiful colors.
 # Requires Pygments installed: sudo easy_install Pygments
-alias cc='pygmentize -O style=monokai -f console256 -g'
+cc() { pygmentize -O style=monokai -f console256 -g "${@}"; }
+vc() { vimcat "${@}" | less -r; }
 
 # Create a new directory and enter it
 md() { mkdir -p "$@" && cd "$@"; }
@@ -84,8 +69,6 @@ function ff () {
 function ffp () {
     find . -name '*'"$1"'*'
 }
-
-export LS_COLORS='di=34:ln=35:ex=1;32:*.js=33:*.css=33:*.gz=31:*.tar=31:*.tgz=31:*.zip=31:*.bz2=31:*.deb=31:*.rpm=31:*.jar=31:*.png=32:*.jpg=32:*.jpeg=32:*.svg=32'
 
 _expand()
 {
@@ -115,4 +98,131 @@ type -t md5sum > /dev/null || alias md5sum="md5"
 # find . -name .gitattributes | map dirname
 alias map="xargs -n1"
 
-promote() { sudo adduser "$@" sudo; }
+alias otrada='http get http://192.168.1.101:7777/media/?action=snapshot --auth admin:q12we34r > ~/Pictures/otrada/`date +"%y-%m-%d_%H-%M-%S"`.jpg && open ~/Pictures/otrada/'
+
+alias o2svg='gd origin/dev --name-only --diff-filter=ACMR | grep ".svg" | while read line; do svgo $line; done'
+alias o2css='gd origin/dev --name-only --diff-filter=ACMR | grep ".css" | while read line; do csscomb $line; done'
+
+# History search
+function h() {
+    if [ -z "$1" ]
+    then
+        history | grep -v "  h" | sed 's/[ \t]*$//' | sort -k 2 -r | uniq -f 1 | sort -n
+    else
+        history | grep -v "  h" | grep $1 | sed 's/[ \t]*$//' | sort -k 2 -r | uniq -f 1 | sort -n
+    fi
+}
+
+# Draws horizontal line and clears sreen
+drawline()
+{
+    SEPARATOR="-"
+    WIDTH=$(tput cols);
+    echo -e "\033[$(($RANDOM % 7 + 31))m"
+    ST=""
+    for ((i=0; i<$WIDTH; i++)); do ST+=$SEPARATOR ; done
+    echo $ST
+    echo -e $RESET
+    clear
+}
+alias c='drawline; history -a'
+
+# Extracts archived files / mounts disk images
+# credit: http://nparikh.org/notes/zshrc.txt
+# Usage: extract <file>
+# Note: .dmg/hdiutil is Mac OS X-specific.
+extract () {
+    if [ -f $1 ]; then
+        case $1 in
+            *.tar.bz2)  tar -jxvf $1                        ;;
+            *.tar.gz)   tar -zxvf $1                        ;;
+            *.bz2)      bunzip2 $1                          ;;
+            *.dmg)      hdiutil mount $1                    ;;
+            *.gz)       gunzip $1                           ;;
+            *.tar)      tar -xvf $1                         ;;
+            *.tbz2)     tar -jxvf $1                        ;;
+            *.tgz)      tar -zxvf $1                        ;;
+            *.zip)      unzip $1                            ;;
+            *.ZIP)      unzip $1                            ;;
+            *.pax)      cat $1 | pax -r                     ;;
+            *.pax.Z)    uncompress $1 --stdout | pax -r     ;;
+            *.Z)        uncompress $1                       ;;
+            *)          echo "'$1' cannot be extracted/mounted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+function tre() {
+    tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
+}
+
+# Create a data URL from a file
+function dataurl() {
+    local mimeType=$(file -b --mime-type "$1")
+    if [[ $mimeType == text/* ]]; then
+            mimeType="${mimeType};charset=utf-8"
+    fi
+    echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+}
+
+# find bash function in dotfiles
+function bash-locate()
+{
+    # Turn on extended shell debugging
+    shopt -s extdebug
+
+    # Dump the function's name, line number and fully qualified source file
+    declare -F $1
+
+    # Turn off extended shell debugging
+    shopt -u extdebug
+}
+
+function port() {
+    lsof -n -i4TCP:$1 | grep LISTEN
+}
+
+
+pb() {
+  # author 'Erich Smith'
+  # about 'clipboard DWIM tool'
+  # example 'pb                    # paste'
+  # example 'echo hi | pb          # copy'
+  # example 'echo hi | pb | cat -  # copy and paste'
+  # example 'pb </tmp/file         # copy'
+  # example 'pb >/tmp/file         # paste'
+  # example 'pb </tmp/f1 >/tmp/f2  # copy and paste'
+  # group 'shell'
+
+  if [[ -p /dev/stdin ]]; then              # STDIN is attached to a pipe
+    pbcopy
+  fi
+
+  if [[ ! -t 0 && ! -p /dev/stdin ]]; then  # STDIN is attached to a redirect
+    pbcopy
+  fi
+
+  if [[ -t 1 ]]; then                       # STDOUT is attached to a TTY
+    if [[ -t 0 ]]; then                     # STDIN is attached to TTY
+      pbpaste
+    fi
+  fi
+
+  if [[ -p /dev/stdout ]]; then             # STDOUT is attached to a pipe
+    pbpaste
+  fi
+
+  if [[ ! -t 1 && ! -p /dev/stdout ]]; then # STDOUT is attached to a redirect
+    pbpaste
+  fi
+}
+
+lastloguser() { lastlog -u "$@" | tail -1 | awk '{ printf "%-15s %-20s %s\n", $1, $3, substr($0, index($0,$4)) }'; }
+# TODO: починить команду
+#mmcmd() { for u in sbmaxx beam nerevar allinne dndushkin tenorok invntrm yurich xescoder hjkos kysergey cherninely pskucherov mokcrimea dmkokorev klimanso eroshinev; do $@; done; }

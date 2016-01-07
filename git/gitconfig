@@ -4,6 +4,9 @@
 [merge]
     log = true
     ff = false
+    conflictstyle = diff3
+[rebase]
+    autosquash = true
 [branch]
     autosetuprebase = always
 [branch "master"]
@@ -20,10 +23,16 @@
     diff = auto
     interactive = auto
     status = auto
+[color "diff"]
+    meta = normal bold
+    frag = magenta bold
+    old = red bold
+    new = blue bold
 [core]
     pager = "less -r"
     # Use custom `.gitignore` and `.gitattributes`
     excludesfile = ~/.gitignore
+    quotepath = false
 [diff]
     noprefix = true
     algorithm = patience
@@ -44,9 +53,10 @@
     st = status -sb
     br = branch
     cp = cherry-pick
+    rb = rebase
 
     m = checkout master
-    d = checkout develop
+    d = checkout dev
     r = checkout release
 
     am = commit --amend
@@ -66,9 +76,19 @@
     # show tags and any tag annotation (tito adds tag annotations for example)
     tags = tag -n1 -l
 
+    # git changed file <file> — show commits in current branch where file was changed
+    cf = log dev...HEAD --pretty=oneline --abbrev-commit --stat=80 --reverse --follow --
+
+    # git changed commit <commit>
+    cc = "!f() { git log dev...HEAD --pretty=oneline --abbrev-commit --stat=80 --reverse --follow -- `git diff-tree --no-commit-id --name-only -r $1`; }; f"
+
+    # git melt <fix> <primary> — fixups fix commit to primary
+    melt = "!f() { GIT_SEQUENCE_EDITOR=\"git-melt-sort $1 $2\" git rebase -i dev; }; f"
+
+    # show commits and changed files in current branch
+    commits = log dev...HEAD --pretty=oneline --abbrev-commit --stat --reverse
     # show changed files in current branch
     files = diff dev...HEAD --stat
-    dogefiles = diff images-viewer/IMAGES-5662...HEAD --stat
 
     # Display the number of commits per author in numerical order
     who = shortlog -sn --
@@ -90,6 +110,8 @@
 
     snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
 
+    # Find Merge — найти мерж-коммит, с которым был влит коммит. Пример как `git fm 0c23f92`
+    # Тред в рассылке: https://ml.yandex-team.ru/thread/2370000000877081412/
     fm = "!sh -c 'git show `git rev-list --ancestry-path $0..dev --merges | tail -f`'"
 
     # easy merge

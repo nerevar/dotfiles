@@ -118,10 +118,15 @@ snippet map
     map(function(${1:v}) {
         return ${2};
     })
+
 snippet euc
-    encodeURIComponent(${1})${2}
+options word
+    encodeURIComponent(${1})
+
 snippet duc
-    decodeURIComponent(${1})${2}
+options word
+    decodeURIComponent(${1})
+
 snippet timer
     var date = new Date
     ${1}
@@ -215,8 +220,12 @@ snippet xhr
         callback(xhr.responseText, xhr.status);
     }
     xhr.send();
+
 snippet jshint
     /* jshint ${1:indent}: false */
+
+snippet jscs
+    /* jscs: disable ${1}*/
 
 snippet dbt
     ([

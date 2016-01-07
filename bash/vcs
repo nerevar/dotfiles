@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+alias g="git"
+alias gst='git st'
+alias gs=gst
+alias gmt="git mergetool && find -type f -name '*.orig' -delete"
+alias gse='/usr/bin/vim $(git status --porcelain | sed -ne "s/^ M //p" | xargs)'
+
+alias g1='git log -1'
+alias g5='git lol -5'
+alias g10='git lol -10'
+#alias s1='svn log -l1'
+
+# цветной diff git
+gd() { git diff "${@}" | colordiff; }
+gdd() { git diff "${@}" | colordiff | less -r; }
+gdc() { git diff --staged "${@}" | colordiff; }
+gds() { git diff --staged "${@}" | colordiff; }
+gdcc() { git diff --staged "${@}" | colordiff | less -r; }
+ga() { git add "${@}"; }
+sd() { svn diff "${@}" | colordiff; }
+alias gb='git branch -a'
+alias gc='git commit -am'
+alias grd='git rb origin/dev'
+alias gr='git remote -v'
+alias gp='git pull --rebase'
+
+function git-get-default-branch() {
+    git branch | grep -oE 'master|develop|dev'
+}
+
+# replace git read-only protocol to pushable ssh in current git repo
+alias gitssh='sed -ie "s/git:\/\/\([^\/]*\)\/\(.*\)/git@\1:\2/g" .git/config'
+
+# git status: edit all changed files
+alias gse='vim $(git status --porcelain | sed -ne "s/^ M //p")'

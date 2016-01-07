@@ -1,0 +1,3 @@
+#!/bin/sh
+# output default branch of current repo. e.g.: dev|master|develop|...
+git branch -a | grep 'remotes/origin/HEAD' | grep -oE '\w+$'

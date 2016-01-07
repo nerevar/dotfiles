@@ -1,16 +1,35 @@
 #!/usr/bin/env bash
 
+export readonly IS_OSX=$([[ $(uname) = Darwin  ]] && echo True)
+export readonly IS_BASH=$([ $BASH ] && echo True)
+export readonly IS_ZSH=$([ $ZSH_NAME ] && echo True)
+export readonly IS_OMZ=$([ -e ~/.oh-my-zsh  ] && echo True)
+#export readonly IS_OPENSTACK=$([ $(hostname | grep '\.serp\.yandex\.ru') ] && echo True)
+export readonly IS_OPENSTACK=$([ $IS_OSX ] || echo True)
+
+export ANDROID_SDK="/Users/nerevar/android-sdk-macosx"
+export ANDROID_HOME="$ANDROID_SDK"
+export ANDROID_PLATFORM_TOOLS="$ANDROID_SDK/platform-tools"
+#export JAVA_HOME="$(/usr/libexec/java_home -v 1.6)"
+export JAVA_HOME="$(/usr/libexec/java_home -v 1.7)"
+
 export PATH=./node_modules/.bin:$PATH
 export PATH=~/node_modules/.bin:$PATH
 export PATH=/usr/local/share/npm/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
 export PATH=~/bin:$PATH
+export PATH=.bin:$PATH # @sbmaxx: Чтобы бинарники из ./.bin запускать
+export PATH=bin:$PATH # @sbmaxx: Чтобы бинарники из ./bin запускать
 export PATH=~/dotfiles/bin:$PATH
 export PATH=~/dotfiles/yandex/bin:$PATH
 export PATH=/usr/local/php5/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 export PATH=~/.rvm/bin:$PATH
-export PATH=~/android-sdk-macosx/platform-tools:$PATH
+export PATH=$ANDROID_HOME/tools:$PATH
+export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=/Berkanavt/bin:$PATH
 export PATH=~/arcadia/devtools/ya/:$PATH
+export PATH='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/':$PATH
 
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 export NODE_PATH=./node_modules:$NODE_PATH
@@ -18,7 +37,7 @@ export NODE_PATH=./node_modules:$NODE_PATH
 export LC_ALL="ru_RU.UTF-8"
 export LANG="ru_RU.UTF-8"
 export EDITOR="vim"
-export TERM="xterm-256color"
+export TERM="screen-256color"
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
@@ -30,7 +49,7 @@ export HISTCONTROL=ignoredups
 # историю дополнять, а не перезатирать
 shopt -s histappend
 # Make some commands not show up in history
-export HISTIGNORE="ls:ll:la:cd:cd -:pwd:exit:date:* --help:gst:gd:gds:sd:c:la:h"
+export HISTIGNORE="pwd:exit:gst:gs:gd:gds:gdc:sd:c:h:fg"
 
 HISTTIMEFORMAT='%F %T '
 export HISTTIMEFORMAT
@@ -41,3 +60,5 @@ export GREP_OPTIONS="--color=auto"
 if [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
 fi
+
+[ -e `which npm` ] && . <(npm completion)

@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var _ = require('lodash');
+
+var fix = process.argv[2],
+    primary = process.argv[3],
+    file = process.argv[4];
+
+var lines = fs.readFileSync(file, 'utf8').split('\n'),
+    primaryIndex = _.findIndex(lines, function(line) {
+        return line.indexOf(primary) >= 0;
+    }),
+    fixIndex = _.findIndex(lines, function(line) {
+        return line.indexOf(fix) >= 0;
+    });
+
+// Меняем pick —> fix
+lines[fixIndex] = lines[fixIndex].replace('pick', 'squash');
+
+// Перемещаем fix сразу ниже primary
+lines.splice(primaryIndex + 1, 0, lines.splice(fixIndex, 1)[0]);
+
+fs.writeFileSync(file, lines.join('\n'));
