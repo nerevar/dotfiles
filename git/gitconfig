@@ -118,3 +118,13 @@
     ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
     theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 
+[filter "lfs"]
+    # При git add превращать скриншоты в указатели
+    clean = git-lfs clean %f
+    # При git checkout превращать указатели в скриншоты
+    smudge = git-lfs smudge --skip %f
+    required = true
+[lfs]
+    # включается batch-режим, актуально для старых версий git-lfs
+    batch = true
+    concurrenttransfers = 15
