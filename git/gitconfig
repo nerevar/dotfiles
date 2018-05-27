@@ -13,6 +13,8 @@
     rebase = true
 [branch "develop"]
     rebase = true
+[branch "dev"]
+    rebase = true
 [branch "release"]
     rebase = true
 [push]
@@ -54,6 +56,9 @@
     br = branch
     cp = cherry-pick
     rb = rebase
+    di = diff
+    dc = diff --cached
+    ds = diff --staged
 
     m = checkout master
     d = checkout dev
@@ -78,6 +83,7 @@
 
     # git changed file <file> — show commits in current branch where file was changed
     cf = log dev...HEAD --pretty=oneline --abbrev-commit --stat=80 --reverse --follow --
+    cfm = log master...HEAD --pretty=oneline --abbrev-commit --stat=80 --reverse --follow --
 
     # git changed commit <commit>
     cc = "!f() { git log dev...HEAD --pretty=oneline --abbrev-commit --stat=80 --reverse --follow -- `git diff-tree --no-commit-id --name-only -r $1`; }; f"
@@ -89,6 +95,11 @@
     commits = log dev...HEAD --pretty=oneline --abbrev-commit --stat --reverse
     # show changed files in current branch
     files = diff dev...HEAD --stat
+
+    standup = "!sh -c \"git log --since '1 day ago' --oneline --author $USER\""
+
+    recent = "!r() { cur=$(git rev-parse --abbrev-ref HEAD); git for-each-ref --sort=-committerdate refs/heads/ --format='%(color:yellow)%(refname:short)|%(color:bold               green)%(committerdate:relative)|%(color:blue)%(subject)|%(color:magenta)%(authorname)%(color:reset)' | column -ts'|'; }; r"
+    recent2 = "!r() { cur=$(git rev-parse --abbrev-ref HEAD); git for-each-ref --sort=-committerdate refs/heads/ --format='%(color:yellow)%(refname:short)|%(color:bold               green)%(committerdate:relative)|%(color:blue)%(subject)%(color:reset)' | column -ts'|'; }; r"
 
     # Display the number of commits per author in numerical order
     who = shortlog -sn --

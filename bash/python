@@ -1,3 +1,10 @@
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/pyprojects
-source /usr/local/bin/virtualenvwrapper.sh
+
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
+if [ -f ~/anaconda/bin/virtualenvwrapper.sh ]; then
+    source ~/anaconda/bin/virtualenvwrapper.sh
+fi

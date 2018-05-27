@@ -6,6 +6,8 @@ alias gs=gst
 alias gmt="git mergetool && find -type f -name '*.orig' -delete"
 alias gse='/usr/bin/vim $(git status --porcelain | sed -ne "s/^ M //p" | xargs)'
 
+alias sst='svn st'
+
 alias g1='git log -1'
 alias g5='git lol -5'
 alias g10='git lol -10'
@@ -19,6 +21,7 @@ gds() { git diff --staged "${@}" | colordiff; }
 gdcc() { git diff --staged "${@}" | colordiff | less -r; }
 ga() { git add "${@}"; }
 sd() { svn diff "${@}" | colordiff; }
+sdd() { svn diff "${@}" | colordiff | less -r; }
 alias gb='git branch -a'
 alias gc='git commit -am'
 alias grd='git rb origin/dev'
@@ -34,3 +37,10 @@ alias gitssh='sed -ie "s/git:\/\/\([^\/]*\)\/\(.*\)/git@\1:\2/g" .git/config'
 
 # git status: edit all changed files
 alias gse='vim $(git status --porcelain | sed -ne "s/^ M //p")'
+
+function svno() {
+    svn_path=`svn info | grep URL | awk -F 'arcadia.yandex.ru' '{print $2}'`
+    full_url="https://a.yandex-team.ru/${svn_path}"
+    echo $full_url
+    open $full_url
+}

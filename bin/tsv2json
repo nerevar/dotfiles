@@ -1,0 +1,2 @@
+#!/bin/bash
+sed 's/"/\\"/g' | awk '{print("{\"key\": \""$1"\", \"subkey\": \""$2"\", \"value\": \""substr($0, index($0,$3))"\"}")}' | sed 's/\t/\\t/g'

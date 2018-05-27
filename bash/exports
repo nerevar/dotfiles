@@ -18,8 +18,10 @@ export PATH=~/node_modules/.bin:$PATH
 export PATH=/usr/local/share/npm/bin:$PATH
 export PATH=/usr/local/sbin:$PATH
 export PATH=~/bin:$PATH
+export PATH=~/.bin:$PATH
 export PATH=.bin:$PATH # @sbmaxx: Чтобы бинарники из ./.bin запускать
 export PATH=bin:$PATH # @sbmaxx: Чтобы бинарники из ./bin запускать
+export PATH=~/.local/bin:$PATH # python pip --user модули
 export PATH=~/dotfiles/bin:$PATH
 export PATH=~/dotfiles/yandex/bin:$PATH
 export PATH=/usr/local/php5/bin:$PATH
@@ -29,8 +31,9 @@ export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
 export PATH=/Berkanavt/bin:$PATH
 export PATH=~/arcadia/devtools/ya/:$PATH
-export PATH=~/anaconda2/bin/:$PATH
+export PATH=~/anaconda/bin/:$PATH
 export PATH='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/':$PATH
+export PATH=~/go/bin/:$PATH
 
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 export NODE_PATH=./node_modules:$NODE_PATH
@@ -42,6 +45,7 @@ export LC_ALL="ru_RU.UTF-8"
 export LANG="ru_RU.UTF-8"
 export EDITOR="vim"
 export TERM="screen-256color"
+export TERM="xterm"
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
@@ -65,4 +69,4 @@ if [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
 fi
 
-[ -e `which npm` ] && . <(npm completion)
+#[ -e `which npm` ] && . <(npm completion)

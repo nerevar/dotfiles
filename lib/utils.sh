@@ -3,6 +3,7 @@
 # Force create/replace the symlink.
 link() {
     if [ -e $1 ]; then
+        [ -L "${HOME}/${2}" ] && unlink "${HOME}/${2}"
         ln -fs "${DOTFILES_DIRECTORY}/${1}" "${HOME}/${2}"
     fi
 }
