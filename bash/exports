@@ -66,9 +66,6 @@ export HISTIGNORE="pwd:exit:gst:gs:gd:gds:gdc:sd:c:h:fg:ll:tm a:cd -:~:cd ~:ltr:
 HISTTIMEFORMAT='%F %T '
 export HISTTIMEFORMAT
 
-# Always enable colored `grep` output
-export GREP_OPTIONS="--color=auto"
-
 if [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
 fi
