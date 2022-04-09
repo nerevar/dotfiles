@@ -2,7 +2,7 @@
 
 DOTFILES_DIRECTORY="${HOME}/dotfiles"
 DOTFILES_GIT_REPO="https://github.com/nerevar/dotfiles"
-DOTFILES_GIT_REMOTE="git@github.com:nerevar/dotfiles.git"
+DOTFILES_GIT_REMOTE="https://github.com/nerevar/dotfiles.git"
 DOTFILES_GIT_BRANCH="master"
 DOTFILES_BOOTSTRAP="${DOTFILES_GIT_REPO}/raw/${DOTFILES_GIT_BRANCH}/`basename $0`"
 DOTFILES_TARBALL_PATH="${DOTFILES_GIT_REPO}/archive/${DOTFILES_GIT_BRANCH}.tar.gz"
