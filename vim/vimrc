@@ -16,13 +16,13 @@ call neobundle#begin(expand('~/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Vimproc to asynchronously run commands (NeoBundle, Unite)
-NeoBundle 'Shougo/vimproc', {
-            \ 'build' : {
-            \     'mac' : 'make -f make_mac.mak',
-            \     'unix' : 'make -f make_unix.mak',
-            \     'linux' : 'make',
-            \    },
-            \ }
+" NeoBundle 'Shougo/vimproc', {
+"            \ 'build' : {
+"            \     'mac' : 'make -f make_mac.mak',
+"            \     'unix' : 'make -f make_unix.mak',
+"            \     'linux' : 'make',
+"            \    },
+"            \ }
 
 " BUNDLES (plugins administrated by NeoBundle) {{{
 
@@ -203,7 +203,7 @@ set background=light
 colorscheme solarized
 
 " Status line
-let g:airline_theme='solarized dark'
+let g:airline_theme='simple'
 set laststatus=2                                        " Always show statusline
 set noshowmode
 
