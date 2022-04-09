@@ -45,8 +45,13 @@ alias ll="ls -laFoh"
 alias la="ls -la ${colorflag}"
 alias lsd='ls -l ${colorflag} | grep "^d"' # List only directories
 alias ltr='ls -ltrh'
+alias lttr='ls -ltrh | tail'
+alias ltr5='ls -ltrh | tail'
+alias ltr1='ls -trh | tail -n 1'
+alias 11='cd `ltr1`'
 
 alias le='less -RS'
+alias le1='le `ltr1`'
 
 # `cat` with beautiful colors.
 # Requires Pygments installed: sudo easy_install Pygments

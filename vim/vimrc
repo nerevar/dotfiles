@@ -28,7 +28,8 @@ NeoBundle 'Shougo/vimproc', {
 
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'bling/vim-airline'               " Lean & mean status/tabline for vim that's light as air.
+NeoBundle 'vim-airline/vim-airline'               " Lean & mean status/tabline for vim that's light as air.
+NeoBundle 'vim-airline/vim-airline-themes'
 
 NeoBundle 'Shougo/unite.vim'
 
@@ -103,8 +104,8 @@ set hidden                  " hide buffers when they are abandoned
 set autoread                " auto reload changed files
 
 " Display options
-" set term=xterm-256color
-set term=screen-256color
+set term=xterm-256color
+" set term=screen-256color
 set shortmess=aTI           " Do not display greetings message at the time of Vim start.
 set title                   " show file name in window title
 set novisualbell            " mute error bell
@@ -202,7 +203,7 @@ set background=light
 colorscheme solarized
 
 " Status line
-let g:airline_theme='powerlineish'
+let g:airline_theme='solarized dark'
 set laststatus=2                                        " Always show statusline
 set noshowmode
 

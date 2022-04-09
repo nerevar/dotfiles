@@ -1,0 +1,11 @@
+#!/bin/sh
+
+CMD="--cmd 'let no_plugin_maps = 1'"
+CMD="$CMD -c 'runtime! macros/less.vim'"
+CMD="$CMD -c 'set nofoldenable'"
+CMD="$CMD --cmd  'let g:loaded_syntastic_plugin = 1'"
+if test $# = 0; then
+  exec bash -c "exec vim $CMD -"
+else
+  exec bash -c "exec vim $CMD $@"
+fi

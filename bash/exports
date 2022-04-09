@@ -13,9 +13,11 @@ export ANDROID_PLATFORM_TOOLS="$ANDROID_SDK/platform-tools"
 #export JAVA_HOME="$(/usr/libexec/java_home -v 1.6)"
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.7)"
 
+export PATH=$HOME/Library/Python/2.7/bin:$PATH
 export PATH=./node_modules/.bin:$PATH
 export PATH=~/node_modules/.bin:$PATH
 export PATH=/usr/local/share/npm/bin:$PATH
+export PATH="$(npm bin -g):$PATH"
 export PATH=/usr/local/sbin:$PATH
 export PATH=~/bin:$PATH
 export PATH=~/.bin:$PATH
@@ -34,6 +36,8 @@ export PATH=~/arcadia/devtools/ya/:$PATH
 export PATH=~/anaconda/bin/:$PATH
 export PATH='/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/':$PATH
 export PATH=~/go/bin/:$PATH
+export PATH=/usr/local/opt/ruby/bin:$PATH
+export PATH=$HOME/.gem/ruby/X.X.0/bin:$PATH
 
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 export NODE_PATH=./node_modules:$NODE_PATH
@@ -53,11 +57,11 @@ export MANPAGER="less -X"
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
+export HISTCONTROL=ignoredups:erasedups
 # историю дополнять, а не перезатирать
 shopt -s histappend
 # Make some commands not show up in history
-export HISTIGNORE="pwd:exit:gst:gs:gd:gds:gdc:sd:c:h:fg"
+export HISTIGNORE="pwd:exit:gst:gs:gd:gds:gdc:sd:c:h:fg:ll:tm a:cd -:~:cd ~:ltr:tre:rel:e ."
 
 HISTTIMEFORMAT='%F %T '
 export HISTTIMEFORMAT

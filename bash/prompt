@@ -28,3 +28,6 @@ export PS1="\[$BLUE\]\u\[$WHITE\]@\[$MAGENTA\]\h \[$GREEN\]\w\[$YELLOW\]\$(__git
 export PS2="\[$YELLOW\]→ \[$RESET\]"
 
 export PROMPT_COMMAND='echo -ne "\033]0;$PWD\007"'
+
+# After each command, save and reload history
+# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
